@@ -47,4 +47,4 @@ amplifytools.xcconfig
 
 venv/** */
 amplify/team-provider-info.json
-venv
+**venv**
