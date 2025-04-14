@@ -1,0 +1,16 @@
+{
+  "trigger": true,
+  "modules": [
+    "custom"
+  ],
+  "parentResource": "devops276efd32",
+  "functionName": "devops276efd32PostConfirmation",
+  "resourceName": "devops276efd32PostConfirmation",
+  "parentStack": "auth",
+  "triggerEnvs": "[]",
+  "triggerDir": "/opt/homebrew/Cellar/aws-amplify/13.0.0/libexec/lib/node_modules/@aws-amplify/cli-internal/node_modules/@aws-amplify/amplify-category-auth/provider-utils/awscloudformation/triggers/PostConfirmation",
+  "triggerTemplate": "PostConfirmation.json.ejs",
+  "triggerEventPath": "PostConfirmation.event.json",
+  "roleName": "devops276efd32PostConfirmation",
+  "skipEdit": true
+}

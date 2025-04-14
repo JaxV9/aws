@@ -1,11 +1,10 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "e8d30b52ad6a1defc05c02568aebca101538ab3715e13ec58128f8f2304330a2"
+            "sha256": "5030be171a2ef330be5c665b91d662f53a22fb3bf03d6e7dbe35ed46247cce89"
         },
         "pipfile-spec": 6,
         "requires": {
-            "python_full_version": "3.13",
             "python_version": "3.13"
         },
         "sources": [
@@ -16,6 +15,11 @@
             }
         ]
     },
-    "default": {},
+    "default": {
+        "src": {
+            "editable": true,
+            "path": "./src"
+        }
+    },
     "develop": {}
 }
