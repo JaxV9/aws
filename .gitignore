@@ -22,6 +22,12 @@ pnpm-debug.log*
 *.sln
 *.sw?
 amplify/team-provider-info.json
+**team-provider-info**
+
+venv/** */
+amplify/team-provider-info.json
+venv
+
 #amplify-do-not-edit-begin
 amplify/\#current-cloud-backend
 amplify/.config/local-*
