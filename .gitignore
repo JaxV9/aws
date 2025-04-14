@@ -2,7 +2,7 @@
 node_modules
 /dist
 
-
+**env**
 # local env files
 .env.local
 .env.*.local
@@ -46,5 +46,5 @@ amplifytools.xcconfig
 **team-provider-info**
 
 venv/** */
-amplify/team-provider-info.json
+amplify/team-provider-info
 venv
