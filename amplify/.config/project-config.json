@@ -1,5 +1,7 @@
 {
-  "whyContinueWithGen1": "Prefer not to answer",
+  "providers": [
+    "awscloudformation"
+  ],
   "projectName": "devops",
   "version": "3.1",
   "frontend": "javascript",
@@ -8,11 +10,8 @@
     "config": {
       "SourceDir": "src",
       "DistributionDir": "dist",
-      "BuildCommand": "npm run-script build",
-      "StartCommand": "npm run-script serve"
+      "BuildCommand": "npm.cmd run-script build",
+      "StartCommand": "npm.cmd run-script serve"
     }
-  },
-  "providers": [
-    "awscloudformation"
-  ]
+  }
 }
