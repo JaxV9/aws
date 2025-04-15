@@ -1,10 +1,16 @@
 <template>
   <DarkModeLayout>
-    <formContainer :title="'confirm Sign up'" :callback="handleConfirmSignUp">
-      <formField :type="'email'" v-model:model="email" :currentPlaceHolder="'Email'" />
-      <formField :type="'text'" v-model:model="code" :currentPlaceHolder="'Code'" />
-      <formSubmitBtn :text="'Register'" />
-    </formContainer>
+    <section>
+      <formContainer :title="'Confirm sign up'" :callback="handleConfirmSignUp">
+        <formLabel :forInput="'email'" :text="'Email'" />
+        <formField :forId="'email'" :type="'email'" v-model:model="email" />
+
+        <formLabel :forInput="'Code'" :text="'Confirmation code'" />
+        <formField :forId="'Code'" :type="'text'" v-model:model="code"/>
+
+        <formSubmitBtn :text="'Confirm'" />
+      </formContainer>
+    </section>
   </DarkModeLayout>
 </template>
 
@@ -14,6 +20,7 @@ import formContainer from '@/components/form/formContainer.vue';
 import formField from '@/components/form/formField/formField.vue';
 import formSubmitBtn from '@/components/form/formSubmitBtn/formSubmitBtn.vue';
 import { confirmSignUp } from 'aws-amplify/auth';
+import formLabel from '@/components/form/formLabel/formLabel.vue';
 
 
 export default {
@@ -23,6 +30,7 @@ export default {
     formContainer,
     formField,
     formSubmitBtn,
+    formLabel,
   },
   data() {
     return {
@@ -44,7 +52,7 @@ export default {
 
         console.log("Sign-up success! User ID:", isSignUpComplete);
         console.log("Next step:", nextStep);
-        if(isSignUpComplete){
+        if (isSignUpComplete) {
           this.$router.push({ path: "/dashboard" })
         }
       } catch (error) {
@@ -56,4 +64,10 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+section {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 150px;
+}
+</style>
