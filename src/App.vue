@@ -1,5 +1,11 @@
 <template>
   <div id="app">
+    <header class="app-header">
+      <button @click="toggleDarkMode" class="toggle-mode">
+        {{ isDarkMode ? '☀️ Mode Jour' : '🌙 Mode Nuit' }}
+      </button>
+    </header>
+
     <div class="login-box">
       <h1 class="title">Login</h1>
       <form class="login-form">
@@ -21,14 +27,32 @@
         <a href="#">Create an account</a>
       </div>
     </div>
-    <footer>
-    </footer>
+    <footer></footer>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  data() {
+    return {
+      isDarkMode: false
+    };
+  },
+  mounted() {
+    const savedMode = localStorage.getItem('darkMode');
+    if (savedMode === 'true') {
+      this.isDarkMode = true;
+      document.body.classList.add('dark-mode');
+    }
+  },
+  methods: {
+    toggleDarkMode() {
+      this.isDarkMode = !this.isDarkMode;
+      document.body.classList.toggle('dark-mode', this.isDarkMode);
+      localStorage.setItem('darkMode', this.isDarkMode);
+    }
+  }
 }
 </script>
 
@@ -44,7 +68,41 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 100px;
+  padding-top: 80px;
+}
+
+/* --- HEADER --- */
+.app-header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 60px;
+  padding: 0 20px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  background-color: #ffffff;
+  border-bottom: 1px solid #ddd;
+  z-index: 1000;
+}
+
+.toggle-mode {
+  padding: 6px 12px;
+  background-color: #ddd;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin: 1%;
+}
+
+body.dark-mode .app-header {
+  background-color: #161b22;
+  border-bottom: 1px solid #30363d;
+}
+
+body.dark-mode .toggle-mode {
+  background-color: #30363d;
+  color: white;
 }
 
 .login-box {
@@ -54,16 +112,6 @@ body {
   border-radius: 18px;
   width: 340px;
   text-align: left;
-}
-
-.cards {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  max-width: 400px;
-  margin: auto;
 }
 
 .title {
@@ -85,7 +133,7 @@ body {
   background-color: #fefefe;
   border: 1px solid #30363d;
   border-radius: 6px;
-  color: #c9d1d9;
+  color: #030303;
 }
 
 .password-row {
@@ -117,14 +165,6 @@ body {
   margin: 20px 0;
 }
 
-.passkey-link {
-  display: block;
-  text-align: center;
-  color: #58a6ff;
-  text-decoration: none;
-  margin-bottom: 12px;
-}
-
 .signup-box {
   text-align: center;
   font-size: 14px;
@@ -136,7 +176,7 @@ body {
   margin-left: 4px;
 }
 
-footer {
+/*footer {
   margin-top: 50px;
   text-align: center;
   font-size: 12px;
@@ -146,5 +186,35 @@ footer a {
   color: #8b949e;
   margin: 0 8px;
   text-decoration: none;
+}*/
+
+/* --- Mode Nuit --- */
+body.dark-mode {
+  background-color: #0d1117;
+  color: #c9d1d9;
+}
+
+body.dark-mode .login-box {
+  background-color: #161b22;
+  border-color: #30363d;
+}
+
+body.dark-mode input {
+  background-color: #0d1117;
+  color: #c9d1d9;
+  border: 1px solid #30363d;
+}
+
+body.dark-mode .signin-button {
+  background-color: #2ea043;
+}
+
+body.dark-mode .divider {
+  background-color: #21262d;
+}
+
+body.dark-mode .forgot-link,
+body.dark-mode .signup-box a {
+  color: #58a6ff;
 }
 </style>
