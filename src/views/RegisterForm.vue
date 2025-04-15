@@ -93,49 +93,6 @@ section {
   margin-top: 150px;
 }
 
-/* body {
-  background-color: #F4F5F7;
-  color: #030303;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-} */
-
-/* --- HEADER --- */
-.app-header {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  height: 60px;
-  padding: 0 20px;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  background-color: #ffffff;
-  border-bottom: 1px solid #ddd;
-  z-index: 1000;
-}
-
-.toggle-mode {
-  padding: 6px 12px;
-  background-color: #ddd;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  margin: 1%;
-}
-
-body.dark-mode .app-header {
-  background-color: #161b22;
-  border-bottom: 1px solid #30363d;
-}
-
-body.dark-mode .toggle-mode {
-  background-color: #30363d;
-  color: white;
-}
-
-/* --- REGISTER STYLE --- */
-
 /* --- DARK MODE --- */
 body.dark-mode {
   background-color: #0d1117;

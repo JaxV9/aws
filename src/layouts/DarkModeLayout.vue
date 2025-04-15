@@ -1,8 +1,8 @@
 <template>
     <div id="layout">
-        <header class="app-header">
+        <header>
             <div class="nav-left">
-                <router-link to="/">Acceuil</router-link>
+                <router-link to="/">Accueil</router-link>
             </div>
 
             <div class="nav-right">
@@ -12,7 +12,7 @@
         </header>
   
       <main class="main-content">
-        <slot />
+        <slot></slot>
       </main>
   
       <button @click="toggleDarkMode" class="toggle-mode">
@@ -54,12 +54,11 @@
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
   }
   
-  .app-header {
+  header {
   position: fixed;
   top: 0;
   width: 100%;
   height: 60px;
-  padding: 0 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -71,11 +70,21 @@
 .nav-left,
 .nav-right {
   display: flex;
-  gap: 16px;
+  gap: 28px;
+}
+
+.nav-left {
+  margin-right: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  padding-left: 28px;
 }
 
 .nav-right {
-  margin: 5%; 
+  margin-left: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  padding-right: 28px;
 }
 
 .nav-left a,
@@ -112,7 +121,7 @@
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
   
-  body.dark-mode .app-header {
+  body.dark-mode header {
     background-color: #161b22;
     border-bottom: 1px solid #30363d;
   }
@@ -122,7 +131,7 @@
     color: white;
   }
 
-  body.dark-mode .app-header {
+  body.dark-mode header {
   background-color: #161b22;
   border-bottom: 1px solid #30363d;
 }
