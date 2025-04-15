@@ -92,34 +92,4 @@ section {
   margin-right: auto;
   margin-top: 150px;
 }
-
-/* --- DARK MODE --- */
-body.dark-mode {
-  background-color: #0d1117;
-  color: #c9d1d9;
-}
-
-body.dark-mode .register {
-  background-color: #161b22;
-  color: #c9d1d9;
-  box-shadow: none;
-}
-
-body.dark-mode .register h1 {
-  color: #58a6ff;
-}
-
-body.dark-mode .register input {
-  background-color: #0d1117;
-  color: #c9d1d9;
-  border: 1px solid #30363d;
-}
-
-body.dark-mode .register button {
-  background-color: #2ea043;
-}
-
-body.dark-mode .register button:hover {
-  background-color: #3cb371;
-}
 </style>

@@ -1,6 +1,7 @@
 <template>
   <div :class="['formContainer', store.appIsDark ? 'dark' : 'white']">
-    <h2>{{ title }}</h2>
+
+    <h2 v-if="title">{{ title }}</h2>
     <form @submit.prevent="handleSubmit">
       <slot></slot>
     </form>
@@ -21,7 +22,6 @@ export default {
   props: {
     title: {
       type: String,
-      required: true
     },
     callback: {
       type: Function,
