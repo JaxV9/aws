@@ -1,37 +1,21 @@
 <template>
   <DarkModeLayout>
+    <section>
+      <formContainer :title="'Login'" :callback="handleLogin">
+        <formLabel :forInput="'username'" :text="'Email address'" />
+        <formField :forId="'username'" :type="'text'" v-model:model="username" />
 
-    <formContainer :title="'login'" :callback="handleLogin">
-      <formField :type="'text'" v-model:model="username" :currentPlaceHolder="'Username or email address'" />
-      <formField :type="'password'" v-model:model="password" :currentPlaceHolder="'password'" />
-      <formSubmitBtn :text="'Sign in'" />
-      <div class="divider"></div>
+        <formLabel :forInput="'password'" :text="'Email address'" />
+        <formField :forId="'password'" :type="'password'" v-model:model="password" />
 
-      <div class="signup-box">
-        <router-link to="/register">Create an account</router-link>
-      </div>
-    </formContainer>toto1234
+        <formSubmitBtn :text="'Sign in'" />
+        <div class="divider"></div>
 
-    <!-- <div class="login-box">
-      <h1 class="title">Login</h1>
-      <form class="login-form">
-        <label for="username">Username or email address</label>
-        <input id="username" type="text" />
-
-        <div class="password-row">
-          <label for="password">Password</label>
+        <div class="signup-box">
+          <router-link to="/register">Create an account</router-link>
         </div>
-        <input id="password" type="password" />
-
-        <button class="signin-button">Sign in</button>
-      </form>
-
-      <div class="divider"></div>
-
-      <div class="signup-box">
-        <router-link to="/register">Create an account</router-link>
-      </div>
-    </div> -->
+      </formContainer>
+    </section>
   </DarkModeLayout>
 </template>
 
@@ -41,15 +25,17 @@ import { signIn } from 'aws-amplify/auth';
 import formContainer from '@/components/form/formContainer.vue';
 import formField from '@/components/form/formField/formField.vue';
 import formSubmitBtn from '@/components/form/formSubmitBtn/formSubmitBtn.vue';
+import formLabel from '@/components/form/formLabel/formLabel.vue';
 
 export default {
   name: 'LoginForm',
-  components: { 
+  components: {
     DarkModeLayout,
     formContainer,
     formField,
     formSubmitBtn,
-   },
+    formLabel
+  },
   data() {
     return {
       username: '',
@@ -67,7 +53,7 @@ export default {
         console.log("Connexion réussie :", isSignedIn);
         console.log("Étape suivante :", nextStep);
 
-        if(isSignedIn){
+        if (isSignedIn) {
           this.$router.push("/dashboard");
         }
 
@@ -81,6 +67,13 @@ export default {
 </script>
 
 <style scoped>
+
+section {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 150px;
+}
+
 .login-box {
   background-color: #ffffff;
   padding: 32px;

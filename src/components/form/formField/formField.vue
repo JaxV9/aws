@@ -1,6 +1,6 @@
 <template>
   <div>
-    <input :type="type" id="lastname" :value="model" @input="$emit('update:model', $event.target.value)"
+    <input :type="type" :id="forId" :value="model" @input="$emit('update:model', $event.target.value)"
       :placeholder="currentPlaceHolder" required />
   </div>
 </template>
@@ -20,10 +20,17 @@ export default {
     },
     currentPlaceHolder: {
       type: String,
+    },
+    forId: {
+      type: String,
       required: true
     }
   }
 };
 </script>
 
-<style></style>
+<style>
+div {
+  margin-bottom: 16px;
+}
+</style>

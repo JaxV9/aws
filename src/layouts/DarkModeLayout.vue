@@ -139,7 +139,7 @@ body.dark-mode .nav-right a:hover {
   
   .main-content {
     margin-top: 80px;
+    height: 100vh;
     display: flex;
-    justify-content: center;
   }
   </style>

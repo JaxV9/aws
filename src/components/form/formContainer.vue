@@ -1,6 +1,6 @@
 <template>
   <div class="formContainer">
-    <h2>Register</h2>
+    <h2>{{ title }}</h2>
     <form @submit.prevent="handleSubmit">
       <slot></slot>
     </form>
@@ -33,7 +33,7 @@ export default {
 
 <style>
 .formContainer {
-  color: #2e8b57;
+  /* color: #2e8b57; */
   font-family: Arial, sans-serif;
   box-shadow: 0 4px 8px rgba(70, 130, 180, 0.3);
   background-color: #ffffff;
@@ -52,7 +52,6 @@ export default {
 .formContainer form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
 }
 
 .formContainer input {
