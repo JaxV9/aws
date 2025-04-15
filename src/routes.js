@@ -1,9 +1,13 @@
 import App from "./App.vue";
-import RegisterForm from "./components/RegisterForm.vue";
+import RegisterForm from "./views/RegisterForm.vue";
 import UserPage from "./components/UserPage.vue";
+import Login from "./views/Login.vue";
+import ConfirmSignUp from "./views/ConfirmSignUp.vue";
 
 export const routes = [
-    { path: "/register", component: RegisterForm },
     { path: "/", component: App },
-    { path: "/user", component: UserPage }
+    { path: "/register", component: RegisterForm },
+    { path: "/login", component: Login},
+    { path: "/user", component: UserPage },
+    { path: '/confirmsignup', component: ConfirmSignUp}
 ];
