@@ -56,9 +56,32 @@
     }
   },
   "function": {
+    "createUser": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "users"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "devops276efd32PostConfirmation": {
       "build": true,
       "dependsOn": [
+        {
+          "attributes": [
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "createUser"
+        },
         {
           "attributes": [
             "Name",
@@ -95,6 +118,38 @@
     }
   },
   "parameters": {
+    "AMPLIFY_function_createUser_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "createUser"
+        }
+      ]
+    },
+    "AMPLIFY_function_createUser_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "createUser"
+        }
+      ]
+    },
+    "AMPLIFY_function_devops276efd32PostConfirmation_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "devops276efd32PostConfirmation"
+        }
+      ]
+    },
+    "AMPLIFY_function_devops276efd32PostConfirmation_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "devops276efd32PostConfirmation"
+        }
+      ]
+    },
     "AMPLIFY_function_getUser_deploymentBucketName": {
       "usedBy": [
         {
@@ -108,6 +163,22 @@
         {
           "category": "function",
           "resourceName": "getUser"
+        }
+      ]
+    },
+    "AMPLIFY_function_insertUser_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "insertUser"
+        }
+      ]
+    },
+    "AMPLIFY_function_insertUser_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "insertUser"
         }
       ]
     }

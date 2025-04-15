@@ -14,6 +14,12 @@
   "roleName": "devops276efd32PostConfirmation",
   "skipEdit": true,
   "permissions": {
+    "function": {
+      "createUser": [
+        "create",
+        "read"
+      ]
+    },
     "storage": {
       "users": [
         "create",
