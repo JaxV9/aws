@@ -1,5 +1,6 @@
 # vue-aws
-
+dynamo
+cognito
 ## Project setup
 ```
 npm install
