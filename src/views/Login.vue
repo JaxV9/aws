@@ -57,7 +57,7 @@
   
   <style>
   body {
-    background-color: #fefefe;
+    background-color: #F4F5F7;
     color: #030303;
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
@@ -105,10 +105,10 @@
   }
   
   .login-box {
-    background-color: #f5f5f5;
+    background-color: #ffffff;
     padding: 32px;
-    border: 1px solid #30363d;
-    border-radius: 18px;
+    box-shadow: 0 4px 8px rgba(70, 130, 180, 0.3);
+    border-radius: 16px;
     width: 340px;
     text-align: left;
   }
@@ -196,6 +196,7 @@
   body.dark-mode .login-box {
     background-color: #161b22;
     border-color: #30363d;
+    box-shadow: none;
   }
   
   body.dark-mode input {
