@@ -56,9 +56,32 @@
     }
   },
   "function": {
+    "createUser": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "users"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "devops276efd32PostConfirmation": {
       "build": true,
       "dependsOn": [
+        {
+          "attributes": [
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "createUser"
+        },
         {
           "attributes": [
             "Name",
@@ -95,6 +118,22 @@
     }
   },
   "parameters": {
+    "AMPLIFY_function_createUser_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "createUser"
+        }
+      ]
+    },
+    "AMPLIFY_function_createUser_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "createUser"
+        }
+      ]
+    },
     "AMPLIFY_function_devops276efd32PostConfirmation_deploymentBucketName": {
       "usedBy": [
         {
