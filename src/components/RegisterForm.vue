@@ -1,89 +1,143 @@
 <template>
-    <div class="register">
+    <div id="app">
+      <header class="app-header">
+        <button @click="toggleDarkMode" class="toggle-mode">
+          {{ isDarkMode ? '☀️ Mode Jour' : '🌙 Mode Nuit' }}
+        </button>
+      </header>
+  
+      <div class="register">
         <h1>Register</h1>
-        <!-- Add your content here  -->
-
+  
         <form @submit.prevent="handleSubmit">
-            <div>
-            <input type="text" id="lastname" v-model="lastname" placeholder="lastname" required />
-            </div>
-            <div>
-            <input type="text" id="firstname" v-model="firstname" placeholder="firstname" required />
-            </div>
-            <!-- <div>
-            <input type="tel" id="telephone" v-model="telephone" placeholder="Numéro de téléphone" required />
-            </div>
-            <div>
-            <input type="text" id="adresse" v-model="adresse" placeholder="adresse" required />
-            </div> -->
-            <div>
+          <div>
+            <input type="text" id="lastname" v-model="lastname" placeholder="Lastname" required />
+          </div>
+          <div>
+            <input type="text" id="firstname" v-model="firstname" placeholder="Firstname" required />
+          </div>
+          <div>
             <input type="email" id="email" v-model="email" placeholder="Email" required />
-            </div>
-            
-            <div>
-            <input type="password" id="password" v-model="password" placeholder="password" required />
-            </div>
-          
-            <button type="submit">Register</button>
+          </div>
+          <div>
+            <input type="password" id="password" v-model="password" placeholder="Password" required />
+          </div>
+  
+          <button type="submit">Register</button>
         </form>
+      </div>
     </div>
-</template>
-
-<script>
-export default {
-    name: "RegisterForm", // Nouveau nom du composant
+  </template>
+  
+  <script>
+  export default {
+    name: "RegisterForm",
     data() {
-        return {
-            // Define your component's data here
-        };
+      return {
+        isDarkMode: false,
+        lastname: '',
+        firstname: '',
+        email: '',
+        password: ''
+      };
+    },
+    mounted() {
+      const savedMode = localStorage.getItem('darkMode');
+      if (savedMode === 'true') {
+        this.isDarkMode = true;
+        document.body.classList.add('dark-mode');
+      }
     },
     methods: {
-        // Add your methods here
-    },
-};
-</script>
-
-<style scoped>
-.register {
-    background-color: white; /* White background */
-    color: #2e8b57; /* Light green text */
+      toggleDarkMode() {
+        this.isDarkMode = !this.isDarkMode;
+        document.body.classList.toggle('dark-mode', this.isDarkMode);
+        localStorage.setItem('darkMode', this.isDarkMode);
+      },
+      handleSubmit() {
+        // Logique d'inscription ici
+        console.log('Formulaire envoyé');
+      }
+    }
+  };
+  </script>
+  
+  <style>
+  body {
+    background-color: #fefefe;
+    color: #030303;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  }
+  
+  /* --- HEADER --- */
+  .app-header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 60px;
+    padding: 0 20px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    background-color: #ffffff;
+    border-bottom: 1px solid #ddd;
+    z-index: 1000;
+  }
+  
+  .toggle-mode {
+    padding: 6px 12px;
+    background-color: #ddd;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin: 1%;
+  }
+  
+  body.dark-mode .app-header {
+    background-color: #161b22;
+    border-bottom: 1px solid #30363d;
+  }
+  
+  body.dark-mode .toggle-mode {
+    background-color: #30363d;
+    color: white;
+  }
+  
+  /* --- REGISTER STYLE --- */
+  .register {
+    color: #2e8b57;
     font-family: Arial, sans-serif;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(70, 130, 180, 0.3); /* Blue shadow evenly distributed */
-    width: 30%;
-    margin-left: auto;
-    margin-right: auto;
-   
-}
-
-.register h1 {
-    color: #4682b4; /* Light blue text */
+    box-shadow: 0 4px 8px rgba(70, 130, 180, 0.3);
+    background-color: #f5f5f5;
+    padding: 32px;
+    border: 1px solid #30363d;
+    border-radius: 18px;
+    width: 340px;
+  }
+  
+  .register h1 {
+    color: #030303;
     text-align: center;
     margin-bottom: 20px;
-}
-
-.register form {
+  }
+  
+  .register form {
     display: flex;
     flex-direction: column;
-    
     gap: 15px;
-}
-
-.register label {
-    font-weight: bold;
-    color: #4682b4; /* Light blue text */
-}
-
-.register input {
+  }
+  
+  .register input {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 14px;
-}
-
-.register button {
-    background-color: #2e8b57; /* Light green background */
+    width: 95%;
+  }
+  
+  .register button {
+    background-color: #238636;
     color: white;
     padding: 10px 15px;
     border: none;
@@ -92,13 +146,36 @@ export default {
     cursor: pointer;
     transition: background-color 0.3s ease;
     width: 185px;
-    margin-left: auto;
-  margin-right: auto;
-  margin-top: 10px;
-  margin-bottom: 30px;
-}
-
-.register button:hover {
-    background-color: #3cb371; /* Slightly darker green on hover */
-}
-</style>
+    margin: 10px auto 30px auto;
+  }
+  
+  /* --- DARK MODE --- */
+  body.dark-mode {
+    background-color: #0d1117;
+    color: #c9d1d9;
+  }
+  
+  body.dark-mode .register {
+    background-color: #161b22;
+    color: #c9d1d9;
+    box-shadow: 0 4px 8px rgba(40, 60, 80, 0.4);
+  }
+  
+  body.dark-mode .register h1 {
+    color: #58a6ff;
+  }
+  
+  body.dark-mode .register input {
+    background-color: #0d1117;
+    color: #c9d1d9;
+    border: 1px solid #30363d;
+  }
+  
+  body.dark-mode .register button {
+    background-color: #2ea043;
+  }
+  
+  body.dark-mode .register button:hover {
+    background-color: #3cb371;
+  }
+  </style>

@@ -23,7 +23,7 @@
         <div class="divider"></div>
   
         <div class="signup-box">
-          <a href="#">Create an account</a>
+          <router-link to="/register">Create an account</router-link>
         </div>
       </div>
       <footer></footer>

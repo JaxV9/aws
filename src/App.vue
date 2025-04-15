@@ -5,11 +5,6 @@
 <script>
 export default {
   name: 'App',
-
-  mounted() {
-    // redirection automatique vers /login
-    this.$router.push('/login');
-  }
 }
 </script>
 
