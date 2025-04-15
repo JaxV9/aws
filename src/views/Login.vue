@@ -1,6 +1,18 @@
 <template>
   <DarkModeLayout>
-    <div class="login-box">
+
+    <formContainer :title="'login'" :callback="handleLogin">
+      <formField :type="'text'" v-model:model="username" :currentPlaceHolder="'Username or email address'" />
+      <formField :type="'password'" v-model:model="password" :currentPlaceHolder="'password'" />
+      <formSubmitBtn :text="'Sign in'" />
+      <div class="divider"></div>
+
+      <div class="signup-box">
+        <router-link to="/register">Create an account</router-link>
+      </div>
+    </formContainer>toto1234
+
+    <!-- <div class="login-box">
       <h1 class="title">Login</h1>
       <form class="login-form">
         <label for="username">Username or email address</label>
@@ -19,17 +31,25 @@
       <div class="signup-box">
         <router-link to="/register">Create an account</router-link>
       </div>
-    </div>
+    </div> -->
   </DarkModeLayout>
 </template>
 
 <script>
 import DarkModeLayout from '@/layouts/DarkModeLayout.vue';
 import { signIn } from 'aws-amplify/auth';
+import formContainer from '@/components/form/formContainer.vue';
+import formField from '@/components/form/formField/formField.vue';
+import formSubmitBtn from '@/components/form/formSubmitBtn/formSubmitBtn.vue';
 
 export default {
   name: 'LoginForm',
-  components: { DarkModeLayout },
+  components: { 
+    DarkModeLayout,
+    formContainer,
+    formField,
+    formSubmitBtn,
+   },
   data() {
     return {
       username: '',
@@ -47,7 +67,9 @@ export default {
         console.log("Connexion réussie :", isSignedIn);
         console.log("Étape suivante :", nextStep);
 
-        this.$router.push("/dashboard");
+        if(isSignedIn){
+          this.$router.push("/dashboard");
+        }
 
       } catch (error) {
         console.error("Erreur de connexion :", error);
