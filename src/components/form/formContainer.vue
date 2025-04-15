@@ -61,17 +61,4 @@ export default {
   font-size: 14px;
   width: 95%;
 }
-
-.formContainer button {
-  background-color: #238636;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 4px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  width: 185px;
-  margin: 10px auto 30px auto;
-}
 </style>

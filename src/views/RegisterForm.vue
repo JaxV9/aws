@@ -1,12 +1,22 @@
 <template>
   <DarkModeLayout>
+    <section>
       <formContainer :title="'Register'" :callback="handleSubmit">
-        <formField :type="'text'" v-model:model="lastname" :currentPlaceHolder="'Lastname'" />
-        <formField :type="'text'" v-model:model="firstname" :currentPlaceHolder="'Firstname'" />
-        <formField :type="'email'" v-model:model="email" :currentPlaceHolder="'Email'" />
-        <formField :type="'password'" v-model:model="password" :currentPlaceHolder="'Password'" />
+        <formLabel :forInput="'lastname'" :text="'Last name'" />
+        <formField :forId="'lastname'" :type="'text'" v-model:model="lastname" />
+
+        <formLabel :forInput="'firstname'" :text="'First name'" />
+        <formField :forId="'firstname'" :type="'text'" v-model:model="firstname" />
+
+        <formLabel :forInput="'email'" :text="'Email'" />
+        <formField :forId="'email'" :type="'email'" v-model:model="email" />
+
+        <formLabel :forInput="'password'" :text="'Password'" />
+        <formField :forId="'password'" :type="'password'" v-model:model="password" />
+
         <formSubmitBtn :text="'Register'" />
       </formContainer>
+    </section>
   </DarkModeLayout>
 </template>
 
@@ -16,6 +26,7 @@ import formContainer from '@/components/form/formContainer.vue';
 import formField from '@/components/form/formField/formField.vue';
 import formSubmitBtn from '@/components/form/formSubmitBtn/formSubmitBtn.vue';
 import DarkModeLayout from '@/layouts/DarkModeLayout.vue';
+import formLabel from '@/components/form/formLabel/formLabel.vue';
 
 export default {
   name: "RegisterForm",
@@ -23,7 +34,8 @@ export default {
     formContainer,
     formField,
     formSubmitBtn,
-    DarkModeLayout
+    DarkModeLayout,
+    formLabel
   },
   data() {
     return {
@@ -62,25 +74,31 @@ export default {
           }
         });
 
-  console.log("Sign-up success! User ID:", userId);
-  console.log("Next step:", nextStep);
-  this.$router.push({path:"confirmsignup"})
-} catch (error) {
-  console.error("Erreur lors de l'inscription:", error);
-  alert("Erreur lors de l'inscription : " + error.message);
-}
-}
+        console.log("Sign-up success! User ID:", userId);
+        console.log("Next step:", nextStep);
+        this.$router.push({ path: "confirmsignup" })
+      } catch (error) {
+        console.error("Erreur lors de l'inscription:", error);
+        alert("Erreur lors de l'inscription : " + error.message);
+      }
+    }
   }
 };
 </script>
 
 <style>
-body {
+section {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 150px;
+}
+
+/* body {
   background-color: #F4F5F7;
   color: #030303;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-}
+} */
 
 /* --- HEADER --- */
 .app-header {
