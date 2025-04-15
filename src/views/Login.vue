@@ -2,14 +2,14 @@
   <DarkModeLayout>
     <div class="login-box">
       <h1 class="title">Login</h1>
-      <form class="login-form">
+      <form @submit.prevent="handleLogin" class="login-form">
         <label for="username">Username or email address</label>
-        <input id="username" type="text" />
+        <input id="username" type="text" v-model="username" />
 
         <div class="password-row">
           <label for="password">Password</label>
         </div>
-        <input id="password" type="password" />
+        <input id="password" type="password" v-model="password" />
 
         <button class="signin-button">Sign in</button>
       </form>
@@ -55,7 +55,7 @@ export default {
       }
     }
   }
-}
+};
 </script>
 
 <style scoped>
