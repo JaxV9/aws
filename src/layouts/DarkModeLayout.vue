@@ -1,60 +1,61 @@
 <template>
-    <div id="layout">
-        <header class="app-header">
-            <div class="nav-left">
-                <router-link to="/">Acceuil</router-link>
-            </div>
+  <div id="layout">
+    <header class="app-header">
+      <div class="nav-left">
+        <router-link to="/">Accueil</router-link>
+      </div>
 
-            <div class="nav-right">
-                <router-link to="/">Login</router-link>
-                <router-link to="/register">Register</router-link>
-            </div>
-        </header>
-  
-      <main class="main-content">
-        <slot />
-      </main>
-  
-      <button @click="toggleDarkMode" class="toggle-mode">
-        {{ isDarkMode ? '☀️' : '🌙' }}
-      </button>
-    </div>
-  </template>
-  
-  <script>
-  export default {
-    name: 'DarkModeLayout',
-    data() {
-      return {
-        isDarkMode: false
-      };
-    },
-    mounted() {
-      const savedMode = localStorage.getItem('darkMode');
-      if (savedMode === 'true') {
-        this.isDarkMode = true;
-        document.body.classList.add('dark-mode');
-      }
-    },
-    methods: {
-      toggleDarkMode() {
-        this.isDarkMode = !this.isDarkMode;
-        document.body.classList.toggle('dark-mode', this.isDarkMode);
-        localStorage.setItem('darkMode', this.isDarkMode);
-      }
+      <div class="nav-right">
+        <router-link to="/">Login</router-link>
+        <router-link to="/register">Register</router-link>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <slot />
+    </main>
+
+    <button @click="toggleDarkMode" class="toggle-mode">
+      {{ isDarkMode ? '☀️' : '🌙' }}
+    </button>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'DarkModeLayout',
+  data() {
+    return {
+      isDarkMode: false
+    };
+  },
+  mounted() {
+    const savedMode = localStorage.getItem('darkMode');
+    if (savedMode === 'true') {
+      this.isDarkMode = true;
+      document.body.classList.add('dark-mode');
     }
-  };
-  </script>
-  
-  <style>
-  body {
-    background-color: #fefefe;
-    color: #030303;
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  },
+  methods: {
+    toggleDarkMode() {
+      this.isDarkMode = !this.isDarkMode;
+      document.body.classList.toggle('dark-mode', this.isDarkMode);
+      localStorage.setItem('darkMode', this.isDarkMode);
+    }
   }
-  
-  .app-header {
+};
+</script>
+
+<style>
+body {
+  background-color: #fefefe;
+  color: #030303;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+.app-header {
   position: fixed;
   top: 0;
   width: 100%;
@@ -66,6 +67,7 @@
   background-color: #ffffff;
   border-bottom: 1px solid #ddd;
   z-index: 1000;
+  transition: background-color 0.5s ease, border-color 0.5s ease;
 }
 
 .nav-left,
@@ -75,7 +77,7 @@
 }
 
 .nav-right {
-  margin: 5%; 
+  margin: 5%;
 }
 
 .nav-left a,
@@ -91,9 +93,9 @@
 .nav-right a:hover {
   color: #238636;
 }
-  
-  .toggle-mode {
-    position: fixed;
+
+.toggle-mode {
+  position: fixed;
   bottom: 20px;
   right: 20px;
   width: 48px;
@@ -110,21 +112,47 @@
   justify-content: center;
   box-shadow: 0 2px 8px rgba(0,0,0,0.2);
   transition: background-color 0.3s ease, transform 0.2s ease;
+  animation: float 3s infinite ease-in-out;
 }
-  
-  body.dark-mode .app-header {
-    background-color: #161b22;
-    border-bottom: 1px solid #30363d;
-  }
-  
-  body.dark-mode .toggle-mode {
-    background-color: #30363d;
-    color: white;
-  }
 
-  body.dark-mode .app-header {
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@media (max-width: 768px) {
+  .toggle-mode {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .toggle-mode {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+  }
+}
+
+body.dark-mode {
+  background-color: #161b22;
+  color: #c9d1d9;
+}
+
+body.dark-mode .app-header {
   background-color: #161b22;
   border-bottom: 1px solid #30363d;
+}
+
+body.dark-mode .toggle-mode {
+  background-color: #30363d;
+  color: white;
 }
 
 body.dark-mode .nav-left a,
@@ -136,10 +164,10 @@ body.dark-mode .nav-left a:hover,
 body.dark-mode .nav-right a:hover {
   color: #58a6ff;
 }
-  
-  .main-content {
-    margin-top: 80px;
-    display: flex;
-    justify-content: center;
-  }
-  </style>
+
+.main-content {
+  margin-top: 80px;
+  display: flex;
+  justify-content: center;
+}
+</style>
