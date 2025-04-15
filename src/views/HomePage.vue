@@ -1,6 +1,6 @@
 <template>
     <DarkModeLayout>
-        <section>
+        <section :class="store.appIsDark ? 'dark' : 'white'">
             <h1>Home</h1>
         </section>
     </DarkModeLayout>
@@ -8,13 +8,19 @@
 
 <script>
 import DarkModeLayout from '@/layouts/DarkModeLayout.vue';
-
+import { inject } from 'vue';
 
 export default {
     name: "HomePage",
     components: {
         DarkModeLayout,
     },
+    setup() {
+    const store = inject('store');
+    return {
+      store
+    };
+  },
 };
 </script>
 
@@ -25,7 +31,11 @@ section {
   margin-top: 150px;
 }
 
-h1 {
-    color: white;
+.dark {
+  color: #ffffff;
+}
+
+.white {
+  color: #0d1117;
 }
 </style>

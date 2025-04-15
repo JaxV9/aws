@@ -1,5 +1,5 @@
 <template>
-  <div class="formContainer">
+  <div :class="['formContainer', store.appIsDark ? 'dark' : 'white']">
     <h2>{{ title }}</h2>
     <form @submit.prevent="handleSubmit">
       <slot></slot>
@@ -8,8 +8,16 @@
 </template>
 
 <script>
+import { inject } from 'vue';
+
 export default {
   name: "formContainer",
+  setup() {
+    const store = inject('store');
+    return {
+      store
+    };
+  },
   props: {
     title: {
       type: String,
@@ -26,25 +34,31 @@ export default {
         event.preventDefault();
       }
       this.callback();
-    }
+    },
   }
 };
 </script>
 
 <style>
+.dark {
+  background-color: #0d1117;
+  color: #ffffff;
+}
+
+.white {
+  background-color: #ffffff;
+  color: #0d1117;
+}
+
 .formContainer {
-  /* color: #2e8b57; */
   font-family: Arial, sans-serif;
   box-shadow: 0 4px 8px rgba(70, 130, 180, 0.3);
-  background-color: #ffffff;
   padding: 32px;
-
   border-radius: 16px;
   width: 340px;
 }
 
 .formContainer h2 {
-  color: #030303;
   text-align: center;
   margin-bottom: 20px;
 }

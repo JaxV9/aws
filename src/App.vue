@@ -3,8 +3,13 @@
 </template>
 
 <script>
+import { useStore } from './store/storeProvider.ts';
+
 export default {
   name: 'App',
+  setup() {
+    useStore();
+  }
 }
 </script>
 
