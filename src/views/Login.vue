@@ -5,7 +5,7 @@
         <formLabel :forInput="'username'" :text="'Email address'" />
         <formField :forId="'username'" :type="'text'" v-model:model="username" />
 
-        <formLabel :forInput="'password'" :text="'Email address'" />
+        <formLabel :forInput="'password'" :text="'Password'" />
         <formField :forId="'password'" :type="'password'" v-model:model="password" />
 
         <formSubmitBtn :text="'Sign in'" />
@@ -140,28 +140,21 @@ section {
   margin-left: 4px;
 }
 
-/* Dark mode overrides */
-body.dark-mode .login-box {
-  background-color: #161b22;
-  border-color: #30363d;
-  box-shadow: none;
-}
-
-body.dark-mode input {
+input {
   background-color: #0d1117;
   color: #c9d1d9;
   border: 1px solid #30363d;
 }
 
-body.dark-mode .signin-button {
+.signin-button {
   background-color: #2ea043;
 }
 
-body.dark-mode .divider {
+.divider {
   background-color: #21262d;
 }
 
-body.dark-mode .signup-box a {
+.signup-box a {
   color: #58a6ff;
 }
 </style>
