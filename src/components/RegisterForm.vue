@@ -84,7 +84,7 @@
   
   <style>
   body {
-    background-color: #fefefe;
+    background-color: #F4F5F7;
     color: #030303;
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
@@ -129,10 +129,10 @@
     color: #2e8b57;
     font-family: Arial, sans-serif;
     box-shadow: 0 4px 8px rgba(70, 130, 180, 0.3);
-    background-color: #f5f5f5;
+    background-color: #ffffff;
     padding: 32px;
-    border: 1px solid #30363d;
-    border-radius: 18px;
+    
+    border-radius: 16px;
     width: 340px;
   }
   
@@ -178,7 +178,7 @@
   body.dark-mode .register {
     background-color: #161b22;
     color: #c9d1d9;
-    box-shadow: 0 4px 8px rgba(40, 60, 80, 0.4);
+    box-shadow: none;
   }
   
   body.dark-mode .register h1 {
