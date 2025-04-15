@@ -14,7 +14,6 @@
 
         <div class="password-row">
           <label for="password">Password</label>
-          <a href="#" class="forgot-link">Forgot password?</a>
         </div>
         <input id="password" type="password" />
 
