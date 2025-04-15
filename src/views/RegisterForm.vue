@@ -65,13 +65,14 @@ export default {
           }
         });
 
-        console.log("Sign-up success! User ID:", userId);
-        console.log("Next step:", nextStep);
-      } catch (error) {
-        console.error("Erreur lors de l'inscription:", error);
-        alert("Erreur lors de l'inscription : " + error.message);
-      }
-    }
+  console.log("Sign-up success! User ID:", userId);
+  console.log("Next step:", nextStep);
+  this.$router.push({path:"confirmsignup"})
+} catch (error) {
+  console.error("Erreur lors de l'inscription:", error);
+  alert("Erreur lors de l'inscription : " + error.message);
+}
+}
   }
 };
 </script>
