@@ -1,10 +1,11 @@
 import { createApp } from 'vue';
+import { createRouter, createWebHistory } from 'vue-router';
+import { routes } from './routes';
 import App from './App.vue';
-import router from './router';
 
-import { Amplify } from 'aws-amplify';
-import awsmobile from './aws-exports';
-
-Amplify.configure(awsmobile);
+const router = createRouter({
+  history: createWebHistory(),
+  routes,
+});
 
 createApp(App).use(router).mount('#app');
