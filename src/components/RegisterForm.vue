@@ -1,39 +1,25 @@
 <template>
-    <div id="app">
-      <header class="app-header">
-        <button @click="toggleDarkMode" class="toggle-mode">
-          {{ isDarkMode ? '☀️ Mode Jour' : '🌙 Mode Nuit' }}
-        </button>
-      </header>
-  
-      <div class="register">
-        <h1>Register</h1>
-  
-        <form @submit.prevent="handleSubmit">
-          <div>
-            <input type="text" id="lastname" v-model="lastname" placeholder="Lastname" required />
-          </div>
-          <div>
-            <input type="text" id="firstname" v-model="firstname" placeholder="Firstname" required />
-          </div>
-          <div>
-            <input type="email" id="email" v-model="email" placeholder="Email" required />
-          </div>
-          <div>
-            <input type="password" id="password" v-model="password" placeholder="Password" required />
-          </div>
-  
-          <button type="submit">Register</button>
-        </form>
-      </div>
+  <DarkModeLayout>
+    <div class="register">
+      <h1>Register</h1>
+      <form @submit.prevent="handleSubmit">
+        <input v-model="lastname" placeholder="Lastname" />
+        <input v-model="firstname" placeholder="Firstname" />
+        <input v-model="email" placeholder="Email" />
+        <input v-model="password" placeholder="Password" />
+        <button type="submit">Register</button>
+      </form>
     </div>
-  </template>
+  </DarkModeLayout>
+</template>
   
   <script>
+  import DarkModeLayout from '@/layouts/DarkModeLayout.vue';
   import { signUp } from 'aws-amplify/auth';
 
   export default {
     name: "RegisterForm",
+    components: { DarkModeLayout },
     data() {
       return {
         isDarkMode: false,
@@ -83,37 +69,6 @@
   </script>
   
   <style>
-  body {
-    background-color: #F4F5F7;
-    color: #030303;
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-  }
-  
-  /* --- HEADER --- */
-  .app-header {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    height: 60px;
-    padding: 0 20px;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    background-color: #ffffff;
-    border-bottom: 1px solid #ddd;
-    z-index: 1000;
-  }
-  
-  .toggle-mode {
-    padding: 6px 12px;
-    background-color: #ddd;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    margin: 1%;
-  }
-  
   body.dark-mode .app-header {
     background-color: #161b22;
     border-bottom: 1px solid #30363d;
@@ -131,7 +86,7 @@
     box-shadow: 0 4px 8px rgba(70, 130, 180, 0.3);
     background-color: #ffffff;
     padding: 32px;
-    
+    margin-top: 80px;
     border-radius: 16px;
     width: 340px;
   }
