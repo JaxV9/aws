@@ -3,15 +3,7 @@
       <!-- Header -->
       <div class="header">
       
-        <div class="user-info">
-          <img src="https://cdn.futura-sciences.com/cdn-cgi/image/width=1920,quality=50,format=auto/sources/images/dossier/773/01-intro-773.jpg" alt="Avatar" class="avatar" />
-          <div class="user-text">
-            <div class="user-name">Username</div>
-            <div class="user-role">LastName Studio</div>
-          </div>
-        </div>
-        <button class="edit-button">✏️ Edit profile</button>
-      </div>
+      
   
       <!-- Formulaire -->
       <div class="content">
@@ -36,6 +28,18 @@
   
           <button type="submit" class="submit-button">Enregistrer</button>
         </form>
+      </div>
+      <div class="all-user-info">
+          <div class="user-info">
+              <img src="https://cdn.futura-sciences.com/cdn-cgi/image/width=1920,quality=50,format=auto/sources/images/dossier/773/01-intro-773.jpg" alt="Avatar" class="avatar" />
+              <div class="user-text">
+                <div class="user-name">Username</div>
+                <div class="user-role">LastName Studio</div>
+              </div>
+            </div>
+            <button class="edit-button">✏️ Edit profile</button>
+          </div>
+
       </div>
     </div>
   </template>
@@ -83,11 +87,24 @@
     margin-bottom: 10px;
     display: block;
   }
+.all-user-info{
+  height: 226px;
+ 
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 250px;
+  border: 1px solid black;
+  background-color: #F4F5F7;
+}
   
   .user-info {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+      display: flex;
+      
+      padding: 15px;
+      align-items: center;
+      gap:10px;
+      justify-content: space-around;
   }
   
   .avatar {
@@ -112,19 +129,22 @@
   }
   
   .edit-button {
-    background-color: white;
+    background-color: #F4F5F7;
     border: 1px solid #ccc;
     padding: 8px 12px;
     cursor: pointer;
     border-radius: 4px;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
   }
   
   .edit-button:hover {
-    background-color: #f0f0f0;
+    background-color: #F4F5F7;
   }
   
   .content {
-    background-color: white;
+    background-color: #F4F5F7;
     padding: 20px;
     border: 1px solid #ddd;
     max-width: 500px;
@@ -160,5 +180,6 @@
   .submit-button:hover {
     background-color: #1e40af;
   }
-  </style>
+  
+</style>
   
