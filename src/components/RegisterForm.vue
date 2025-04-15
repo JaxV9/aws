@@ -63,7 +63,9 @@
       password: this.password,
       options: {
         userAttributes: {
-          email: this.email
+          email: this.email,
+          name: this.firstname,
+          family_name: this.lastname
         },
         autoSignIn: true
       }
