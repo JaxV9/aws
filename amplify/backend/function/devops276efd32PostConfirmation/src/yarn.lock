@@ -4,12 +4,8 @@
 
 "@types/aws-lambda@^8.10.92":
   version "8.10.149"
-<<<<<<< Updated upstream
   resolved "https://registry.npmjs.org/@types/aws-lambda/-/aws-lambda-8.10.149.tgz"
   integrity sha512-NXSZIhfJjnXqJgtS7IwutqIF/SOy1Wz5Px4gUY1RWITp3AYTyuJS4xaXr/bIJY1v15XMzrJ5soGnPM+7uigZjA==
-=======
-  resolved "file:node_modules/.pnpm/@types+aws-lambda@8.10.149/node_modules/@types/aws-lambda"
->>>>>>> Stashed changes
 
 asynckit@^0.4.0:
   version "0.4.0"
