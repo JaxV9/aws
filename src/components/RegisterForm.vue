@@ -30,6 +30,8 @@
   </template>
   
   <script>
+  import { signUp } from 'aws-amplify/auth';
+
   export default {
     name: "RegisterForm",
     data() {
@@ -54,10 +56,26 @@
         document.body.classList.toggle('dark-mode', this.isDarkMode);
         localStorage.setItem('darkMode', this.isDarkMode);
       },
-      handleSubmit() {
-        // Logique d'inscription ici
-        console.log('Formulaire envoyé');
+      async handleSubmit() {
+  try {
+    const { userId, nextStep } = await signUp({
+      username: this.email,
+      password: this.password,
+      options: {
+        userAttributes: {
+          email: this.email
+        },
+        autoSignIn: true
       }
+    });
+
+    console.log("Sign-up success! User ID:", userId);
+    console.log("Next step:", nextStep);
+  } catch (error) {
+    console.error("Erreur lors de l'inscription:", error);
+    alert("Erreur lors de l'inscription : " + error.message);
+  }
+}
     }
   };
   </script>
