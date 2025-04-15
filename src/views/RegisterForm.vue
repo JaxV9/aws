@@ -1,7 +1,5 @@
 <template>
   <DarkModeLayout>
-    <div id="app">
-
       <formContainer :title="'Register'" :callback="handleSubmit">
         <formField :type="'text'" v-model:model="lastname" :currentPlaceHolder="'Lastname'" />
         <formField :type="'text'" v-model:model="firstname" :currentPlaceHolder="'Firstname'" />
@@ -9,7 +7,6 @@
         <formField :type="'password'" v-model:model="password" :currentPlaceHolder="'Password'" />
         <formSubmitBtn :text="'Register'" />
       </formContainer>
-    </div>
   </DarkModeLayout>
 </template>
 
