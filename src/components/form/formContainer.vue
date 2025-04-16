@@ -41,7 +41,7 @@ export default {
 
 <style>
 .dark {
-  background-color: #0d1117;
+  background-color: #212830;
   color: #ffffff;
 }
 
@@ -56,6 +56,7 @@ export default {
   padding: 32px;
   border-radius: 16px;
   width: 340px;
+  border: 1px solid #767c84;
 }
 
 .formContainer h2 {

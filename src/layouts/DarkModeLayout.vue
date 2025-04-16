@@ -128,7 +128,7 @@ body.dark-mode header {
 }
 
 body.dark-mode .toggle-mode {
-  background-color: #30363d;
+  background-color: #212830;
   color: white;
 }
 
@@ -147,8 +147,14 @@ body.dark-mode .nav-right a:hover {
   color: #58a6ff;
 }
 
+body.dark-mode header{
+  background-color: #161b22;
+  border-bottom: 1px solid #30363d;
+}
+
+
 .main-content {
-  margin-top: 80px;
+  margin-top: 2%;
   height: 100vh;
   display: flex;
 }
