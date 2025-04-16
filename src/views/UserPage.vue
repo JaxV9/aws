@@ -16,17 +16,11 @@
             class="avatar"
           />
           <div>
-            <div class="user-name">{{ username }}</div>
-            <div class="user-role">ID: {{ userId }}</div>
+            <div class="user-field">{{ email }}</div>
+            <div class="user-field">{{ firstName }} {{ lastName }}</div>
+            <div class="user-field">{{ userId }}</div>
           </div>
-          
-          <div class="user-details">
-            <div><strong>Username :</strong> {{ username }}</div>
-            <div><strong>User ID :</strong> {{ userId }}</div>
-          </div>
-
         </div>
-      
     </section>
   </DarkModeLayout>
 
@@ -50,23 +44,18 @@ export default {
       store
     };
   },
-  async data() {
+  data() {
     return {
-      phone: '',
-      adresse: '',
-      username: '',
-      userId: '',
-      signInDetails: null,
+      email: null,
+      lastName: null,
+      firstName: null,
+      userId: null,
     };
   },
   created() {
     this.getUser();
   },
   methods: {
-    handleSubmit() {
-      console.log('Téléphone :', this.phone);
-      console.log('Adresse :', this.adresse);
-    },
     async getUser() {
       try {
         const restOperation = get({
@@ -74,7 +63,11 @@ export default {
           path: '/getCurrentUser'
         });
         const response = await restOperation.response;
-        console.log('GET call succeeded: ', response);
+        const data = await response.body.json();
+        this.email = data[0].email
+        this.lastName = data[0].last_name
+        this.firstName = data[0].first_name
+        this.userId = data[0].user_id
       } catch (e) {
         console.log('GET call failed: ', e);
       }
@@ -174,7 +167,7 @@ export default {
   box-shadow: 0 2px 6px rgba(255, 255, 255, 0.1);
 }
 
-.user-name {
+.user-field {
   font-size: 18px;
   font-weight: 600;
   color: #f4f4f4;

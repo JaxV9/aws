@@ -41,7 +41,7 @@ export default {
 
 <style>
 .dark {
-  background-color: #212830;
+  background-color: #17191D;
   color: #ffffff;
 }
 
@@ -52,11 +52,9 @@ export default {
 
 .formContainer {
   font-family: Arial, sans-serif;
-  box-shadow: 0 4px 8px rgba(70, 130, 180, 0.3);
   padding: 32px;
   border-radius: 16px;
   width: 340px;
-  border: 1px solid #767c84;
 }
 
 .formContainer h2 {

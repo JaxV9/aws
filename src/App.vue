@@ -22,7 +22,7 @@ export default {
   color: #2c3e50;
 }
 body.dark-mode {
-  background-color: #0d1117;
+  background-color: #000;
   color: #c9d1d9;
 }
 </style>

@@ -49,7 +49,7 @@ export default {
 
 <style>
 body {
-  background-color: #fefefe;
+  background-color: #F4F5F7;
   color: #030303;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
@@ -123,7 +123,7 @@ header {
 }
 
 body.dark-mode header {
-  background-color: #161b22;
+  background-color: red;
   border-bottom: 1px solid #30363d;
 }
 
