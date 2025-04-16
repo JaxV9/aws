@@ -54,7 +54,7 @@ export default {
         console.log("Étape suivante :", nextStep);
 
         if (isSignedIn) {
-          this.$router.push("/dashboard");
+          this.$router.push("/user");
         }
 
       } catch (error) {

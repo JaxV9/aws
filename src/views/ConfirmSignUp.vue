@@ -53,7 +53,7 @@ export default {
         console.log("Sign-up success! User ID:", isSignUpComplete);
         console.log("Next step:", nextStep);
         if (isSignUpComplete) {
-          this.$router.push({ path: "/dashboard" })
+          this.$router.push({ path: "/user" })
         }
       } catch (error) {
         console.error("Erreur lors de l'inscription:", error);
