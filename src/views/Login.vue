@@ -67,7 +67,6 @@ export default {
 </script>
 
 <style scoped>
-
 section {
   margin-left: auto;
   margin-right: auto;
