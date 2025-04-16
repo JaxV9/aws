@@ -8,25 +8,25 @@
       <!-- Formulaire -->
       <div class="content">
         <form @submit.prevent="handleSubmit" class="form">
-          <label for="telephone">Téléphone</label>
+          <label for="telephone">Phone number</label>
           <input
             type="tel"
             id="telephone"
             v-model="telephone"
-            placeholder="Numéro de téléphone"
+            placeholder="Phone number"
             required
           />
   
-          <label for="adresse">Adresse</label>
+          <label for="adresse">Address</label>
           <input
             type="text"
             id="adresse"
             v-model="adresse"
-            placeholder="Adresse"
+            placeholder="address"
             required
           />
   
-          <button type="submit" class="submit-button">Enregistrer</button>
+          <button type="submit" class="submit-button">Save</button>
         </form>
       </div>
       <div class="all-user-info">
