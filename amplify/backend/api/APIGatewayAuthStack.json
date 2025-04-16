@@ -16,6 +16,9 @@
     },
     "createAdress": {
       "Type": "String"
+    },
+    "getAdresses": {
+      "Type": "String"
     }
   },
   "Conditions": {

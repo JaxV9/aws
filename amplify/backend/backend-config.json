@@ -14,6 +14,20 @@
       "providerPlugin": "awscloudformation",
       "service": "API Gateway"
     },
+    "getAdresses": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "getAdresses"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    },
     "users": {
       "dependsOn": [
         {
@@ -142,6 +156,22 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
+    "getAdresses": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "adresses"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "getUser": {
       "build": true,
       "dependsOn": [
@@ -221,6 +251,22 @@
         {
           "category": "function",
           "resourceName": "devops276efd32PostConfirmation"
+        }
+      ]
+    },
+    "AMPLIFY_function_getAdresses_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "getAdresses"
+        }
+      ]
+    },
+    "AMPLIFY_function_getAdresses_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "getAdresses"
         }
       ]
     },

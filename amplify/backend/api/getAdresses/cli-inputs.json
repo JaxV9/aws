@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "paths": {
+    "/getAdresses": {
+      "name": "/getAdresses",
+      "lambdaFunction": "getAdresses",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}
