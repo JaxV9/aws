@@ -1,162 +1,201 @@
 <template>
   <DarkModeLayout>
-    <section>
-        <formContainer :callback="() => console.log('hello')">
-          <formLabel :forInput="'phone'" :text="'Phone'" />
-          <formField :forId="'phone'" :type="'text'" v-model:model="phone" />
-
-          <formLabel :forInput="'adresse'" :text="'Adresse'" />
-          <formField :forId="'adresse'" :type="'text'" v-model:model="adresse" />
-
-          <formSubmitBtn :text="'Register'" />
-        </formContainer>
-
-        <div class="all-user-info">
-          <div class="user-info">
-            <img
-              src="https://cdn.futura-sciences.com/cdn-cgi/image/width=1920,quality=50,format=auto/sources/images/dossier/773/01-intro-773.jpg"
-              alt="Avatar" class="avatar" />
-            <div class="user-text">
-              <div class="user-name">Username</div>
-              <div class="user-role">LastName Studio</div>
-            </div>
-          </div>
-          <button class="edit-button">✏️ Edit profile</button>
+   <section class="grid-container">
+      <div class="user-panel">
+        <div class="user-buttons">
+          <h3>Menu</h3>
+          <button @click="test" class="info-button">👤 Voir mes infos</button>
+          <button @click="handleSignOut" class="signout-button">🚪 Déconnexion</button>
         </div>
+      </div>
+
+      <div class="user-info">
+          <img
+            src="https://cdn.futura-sciences.com/cdn-cgi/image/width=1920,quality=50,format=auto/sources/images/dossier/773/01-intro-773.jpg"
+            alt="Avatar"
+            class="avatar"
+          />
+          <div>
+            <div class="user-name">{{ username }}</div>
+            <div class="user-role">ID: {{ userId }}</div>
+          </div>
+          
+          <div class="user-details">
+            <div><strong>Username :</strong> {{ username }}</div>
+            <div><strong>User ID :</strong> {{ userId }}</div>
+          </div>
+
+        </div>
+      
     </section>
   </DarkModeLayout>
+
+
+  
 </template>
 
 <script>
 import DarkModeLayout from '@/layouts/DarkModeLayout.vue';
-import formContainer from '@/components/form/formContainer.vue';
-import formField from '@/components/form/formField/formField.vue';
-import formSubmitBtn from '@/components/form/formSubmitBtn/formSubmitBtn.vue';
-import formLabel from '@/components/form/formLabel/formLabel.vue';
+//import formContainer from '@/components/form/formContainer.vue';
+//import formField from '@/components/form/formField/formField.vue';
+//import formSubmitBtn from '@/components/form/formSubmitBtn/formSubmitBtn.vue';
+//import formLabel from '@/components/form/formLabel/formLabel.vue';
+import { getCurrentUser } from 'aws-amplify/auth';
 
 export default {
-  name: "UserPage",
+  name: 'UserPage',
   components: {
     DarkModeLayout,
-    formContainer,
-    formField,
-    formSubmitBtn,
-    formLabel
+    // formContainer,
+    // formField,
+    // formSubmitBtn,
+    // formLabel,
   },
   data() {
     return {
-      phone: "",
-      adresse: "",
+      phone: '',
+      adresse: '',
+      username: '',
+      userId: '',
+      signInDetails: null,
     };
   },
+  async mounted() {
+    await this.loadUser();
+  },
   methods: {
+    async loadUser() {
+      try {
+        const { username, userId, signInDetails } = await getCurrentUser();
+        this.username = username;
+        this.userId = userId;
+        this.signInDetails = signInDetails;
+      } catch (error) {
+        console.error('Erreur récupération user :', error);
+      }
+    },
+    test() {
+      console.log(this.username, this.userId, this.signInDetails);
+    },
     handleSubmit() {
-      console.log("Téléphone :", this.telephone);
-      console.log("Adresse :", this.adresse);
+      console.log('Téléphone :', this.phone);
+      console.log('Adresse :', this.adresse);
     },
   },
 };
 </script>
 
 <style scoped>
-section {
-  margin: auto;
-  display: flex;
-  flex-direction: row;
-  gap: 16px;
+.grid-container {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  width: 100%;
+  height: 100vh;
+  box-sizing: border-box;
+  margin-top: 0%;
 }
 
-.back-link {
-  text-decoration: none;
-  color: #555;
-  margin-bottom: 10px;
-  display: block;
-}
-
-.all-user-info {
-  height: 226px;
-
+.user-panel {
+  grid-area: 1 / 1 / 2 / 2;
+  background-color: #1f1f1f;
+  border-right: 1px solid #2a2a2a;
+  padding: 2rem 1rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  width: 250px;
-  border: 1px solid black;
-  background-color: #F4F5F7;
+  justify-content: flex-start;
+  gap: 2rem;
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.user-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.user-buttons h3 {
+  font-size: 14px;
+  color: #aaaaaa;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.user-buttons button {
+  padding: 10px 14px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  background-color: #292929;
+  color: #f4f4f4;
+  text-align: left;
+  transition: background 0.2s;
+  cursor: pointer;
+  box-shadow: 4px 4px 10px #141414, -4px -4px 10px #2a2a2a;
+}
+
+.user-buttons button:hover {
+  background-color: #363636;
+}
+
+.info-button {
+  background-color: #1e3a8a; 
+  color: #fff;
+}
+
+.info-button:hover {
+  background-color: #2563eb;
+}
+
+.signout-button {
+  background-color: #7f1d1d; 
+  color: #fff;
+}
+
+.signout-button:hover {
+  background-color: #dc2626;
 }
 
 .user-info {
+  grid-area: 1 / 2 / 2 / 3;
+  padding: 3rem;
+  background-color: #1f1f1f;
   display: flex;
-
-  padding: 15px;
+  flex-direction: column;
+  gap: 2rem;
   align-items: center;
-  gap: 10px;
-  justify-content: space-around;
 }
 
 .avatar {
-  width: 40px;
-  height: 40px;
+  width: 72px;
+  height: 72px;
   border-radius: 50%;
-}
-
-.user-text {
-  display: flex;
-  flex-direction: column;
+  object-fit: cover;
+  box-shadow: 0 2px 6px rgba(255, 255, 255, 0.1);
 }
 
 .user-name {
-  font-weight: bold;
-  font-size: 16px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #f4f4f4;
 }
 
 .user-role {
   font-size: 14px;
-  color: #777;
+  color: #bbbbbb;
 }
 
-.edit-button {
-  background-color: #F4F5F7;
-  border: 1px solid #ccc;
-  padding: 8px 12px;
-  cursor: pointer;
-  border-radius: 4px;
-  width: 50%;
-  margin-left: auto;
-  margin-right: auto;
+.user-details {
+  margin-top: 1rem;
+  font-size: 15px;
+  color: #cccccc;
+  line-height: 1.6;
+  text-align: center;
 }
 
-.edit-button:hover {
-  background-color: #F4F5F7;
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
-}
-
-.form label {
-  margin-top: 10px;
-  margin-bottom: 5px;
-  font-size: 14px;
-}
-
-.form input {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.submit-button {
-  margin-top: 20px;
-  padding: 10px;
-  background-color: #2563eb;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.submit-button:hover {
-  background-color: #1e40af;
+.user-details strong {
+  color: #ffffff;
 }
 </style>
