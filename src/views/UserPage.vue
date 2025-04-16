@@ -239,6 +239,7 @@ body.dark-mode .user-details {
   color: #c9d1d9;
 }
 
+body.dark-mode .user-field,
 body.dark-mode .user-details strong {
   color: #ffffff;
 }

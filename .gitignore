@@ -28,6 +28,12 @@ venv/** */
 amplify/team-provider-info.json
 venv
 
+**team-provider-info**
+
+venv/** */
+amplify/team-provider-info
+venv
+
 #amplify-do-not-edit-begin
 amplify/\#current-cloud-backend
 amplify/.config/local-*
@@ -49,8 +55,3 @@ amplifytools.xcconfig
 .secret-*
 **.sample
 #amplify-do-not-edit-end
-**team-provider-info**
-
-venv/** */
-amplify/team-provider-info
-venv
