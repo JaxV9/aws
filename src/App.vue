@@ -3,8 +3,13 @@
 </template>
 
 <script>
+import { useStore } from './store/storeProvider.ts';
+
 export default {
   name: 'App',
+  setup() {
+    useStore();
+  }
 }
 </script>
 
@@ -15,6 +20,9 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  
+}
+body.dark-mode {
+  background-color: #0d1117;
+  color: #c9d1d9;
 }
 </style>

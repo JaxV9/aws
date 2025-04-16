@@ -1,6 +1,7 @@
 <template>
-  <div class="formContainer">
-    <h2>Register</h2>
+  <div :class="['formContainer', store.appIsDark ? 'dark' : 'white']">
+
+    <h2 v-if="title">{{ title }}</h2>
     <form @submit.prevent="handleSubmit">
       <slot></slot>
     </form>
@@ -8,12 +9,19 @@
 </template>
 
 <script>
+import { inject } from 'vue';
+
 export default {
   name: "formContainer",
+  setup() {
+    const store = inject('store');
+    return {
+      store
+    };
+  },
   props: {
     title: {
       type: String,
-      required: true
     },
     callback: {
       type: Function,
@@ -26,25 +34,31 @@ export default {
         event.preventDefault();
       }
       this.callback();
-    }
+    },
   }
 };
 </script>
 
 <style>
+.dark {
+  background-color: #0d1117;
+  color: #ffffff;
+}
+
+.white {
+  background-color: #ffffff;
+  color: #0d1117;
+}
+
 .formContainer {
-  color: #2e8b57;
   font-family: Arial, sans-serif;
   box-shadow: 0 4px 8px rgba(70, 130, 180, 0.3);
-  background-color: #ffffff;
   padding: 32px;
-
   border-radius: 16px;
   width: 340px;
 }
 
 .formContainer h2 {
-  color: #030303;
   text-align: center;
   margin-bottom: 20px;
 }
@@ -52,7 +66,6 @@ export default {
 .formContainer form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
 }
 
 .formContainer input {
@@ -61,18 +74,5 @@ export default {
   border-radius: 4px;
   font-size: 14px;
   width: 95%;
-}
-
-.formContainer button {
-  background-color: #238636;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 4px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  width: 185px;
-  margin: 10px auto 30px auto;
 }
 </style>
