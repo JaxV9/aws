@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "paths": {
+    "/insertUser": {
+      "name": "/insertUser",
+      "lambdaFunction": "insertUser",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/getCurrentUser": {
+      "name": "/getCurrentUser",
+      "lambdaFunction": "getUser",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "read"
+        ]
+      }
+    }
+  }
+}

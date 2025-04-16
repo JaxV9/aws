@@ -2,7 +2,7 @@
 node_modules
 /dist
 
-
+**env**
 # local env files
 .env.local
 .env.*.local
@@ -21,6 +21,12 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+amplify/team-provider-info.json
+**team-provider-info**
+
+venv/** */
+amplify/team-provider-info.json
+venv
 
 #amplify-do-not-edit-begin
 amplify/\#current-cloud-backend
@@ -43,6 +49,8 @@ amplifytools.xcconfig
 .secret-*
 **.sample
 #amplify-do-not-edit-end
+**team-provider-info**
 
-amplify/team-provider-info.json
 venv/** */
+amplify/team-provider-info
+venv
