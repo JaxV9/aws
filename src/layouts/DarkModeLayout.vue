@@ -51,7 +51,7 @@ export default {
 body {
   background-color: #fefefe;
   color: #030303;
-  margin: 0;
+  margin: 0%;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
 }
 
@@ -66,6 +66,10 @@ header {
   background-color: #ffffff;
   border-bottom: 1px solid #ddd;
   z-index: 1000;
+}
+
+div {
+  margin-bottom: 0%;
 }
 
 .nav-left,
@@ -152,9 +156,7 @@ body.dark-mode header{
   border-bottom: 1px solid #30363d;
 }
 
-
 .main-content {
-  margin-top: 2%;
   height: 100vh;
   display: flex;
 }
