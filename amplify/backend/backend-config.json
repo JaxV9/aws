@@ -1,5 +1,19 @@
 {
   "api": {
+    "createAdress": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "createAdress"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    },
     "users": {
       "dependsOn": [
         {
@@ -64,6 +78,31 @@
     }
   },
   "function": {
+    "createAdress": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "users"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "adresses"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "createUser": {
       "build": true,
       "dependsOn": [
@@ -137,6 +176,22 @@
     }
   },
   "parameters": {
+    "AMPLIFY_function_createAdress_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "createAdress"
+        }
+      ]
+    },
+    "AMPLIFY_function_createAdress_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "createAdress"
+        }
+      ]
+    },
     "AMPLIFY_function_createUser_deploymentBucketName": {
       "usedBy": [
         {
@@ -203,6 +258,10 @@
     }
   },
   "storage": {
+    "adresses": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
+    },
     "users": {
       "providerPlugin": "awscloudformation",
       "service": "DynamoDB"

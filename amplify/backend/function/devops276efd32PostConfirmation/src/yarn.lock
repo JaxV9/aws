@@ -41,12 +41,11 @@ delayed-stream@~1.0.0:
   resolved "https://registry.npmjs.org/delayed-stream/-/delayed-stream-1.0.0.tgz"
   integrity sha512-ZySD7Nf91aLB0RxL4KGrKHBXl7Eds1DAmEdcoVawXnLD7SDhpNgtuII2aAkg7a7QS41jxPSZ17p4VdGnMHk3MQ==
 
-"devops276efd32PostConfirmation@file:":
+"devops276efd32PostConfirmation@file:.":
   version "2.0.0"
-  resolved "file:"
   dependencies:
     axios latest
-    devops276efd32PostConfirmation "file:"
+    devops276efd32PostConfirmation "file:../../../../../../../../../Library/Caches/Yarn/v6/npm-devops276efd32-ost-onfirmation-2.0.0-686d8c58-d798-40d7-a6be-cfc2bcb7935c-1744810299632/node_modules/devops276efd32PostConfirmation"
 
 dunder-proto@^1.0.1:
   version "1.0.1"

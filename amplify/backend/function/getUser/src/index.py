@@ -13,7 +13,7 @@ def handler(event, context):
 
   response = table.query(
     KeyConditionExpression=Key('id').eq(userId)
-)
+  )
   items = response['Items']
 
   print('userid' + userId)
