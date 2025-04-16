@@ -4,8 +4,8 @@
       <div class="user-panel">
         <div class="user-buttons">
           <h3>Menu</h3>
-          <button @click="test" class="info-button">👤 Voir mes infos</button>
-          <button @click="handleSignOut" class="signout-button">🚪 Déconnexion</button>
+          <button class="info-button">👤 Voir mes infos</button>
+          <button class="signout-button">🚪 Déconnexion</button>
         </div>
       </div>
 
@@ -36,22 +36,21 @@
 
 <script>
 import DarkModeLayout from '@/layouts/DarkModeLayout.vue';
-//import formContainer from '@/components/form/formContainer.vue';
-//import formField from '@/components/form/formField/formField.vue';
-//import formSubmitBtn from '@/components/form/formSubmitBtn/formSubmitBtn.vue';
-//import formLabel from '@/components/form/formLabel/formLabel.vue';
-import { getCurrentUser } from 'aws-amplify/auth';
+import { inject } from 'vue';
+import { get } from 'aws-amplify/api'
 
 export default {
   name: 'UserPage',
   components: {
     DarkModeLayout,
-    // formContainer,
-    // formField,
-    // formSubmitBtn,
-    // formLabel,
   },
-  data() {
+  setup() {
+    const store = inject('store');
+    return {
+      store
+    };
+  },
+  async data() {
     return {
       phone: '',
       adresse: '',
@@ -60,27 +59,26 @@ export default {
       signInDetails: null,
     };
   },
-  async mounted() {
-    await this.loadUser();
+  created() {
+    this.getUser();
   },
   methods: {
-    async loadUser() {
-      try {
-        const { username, userId, signInDetails } = await getCurrentUser();
-        this.username = username;
-        this.userId = userId;
-        this.signInDetails = signInDetails;
-      } catch (error) {
-        console.error('Erreur récupération user :', error);
-      }
-    },
-    test() {
-      console.log(this.username, this.userId, this.signInDetails);
-    },
     handleSubmit() {
       console.log('Téléphone :', this.phone);
       console.log('Adresse :', this.adresse);
     },
+    async getUser() {
+      try {
+        const restOperation = get({
+          apiName: 'users',
+          path: '/getCurrentUser'
+        });
+        const response = await restOperation.response;
+        console.log('GET call succeeded: ', response);
+      } catch (e) {
+        console.log('GET call failed: ', e);
+      }
+    }
   },
 };
 </script>
