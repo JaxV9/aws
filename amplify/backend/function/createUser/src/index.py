@@ -13,7 +13,7 @@ def handler(event, context):
     user_id = event.get('user_id')
     email = event.get('email')
     first_name = event.get('first_name')
-    last_name = event.get('last_name')
+    last_name = event.get('last_Name')
 
     user_item = {
         'id': user_id,
