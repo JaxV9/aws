@@ -7,6 +7,16 @@
       "permissions": {
         "setting": "open"
       }
+    },
+    "/getCurrentUser": {
+      "name": "/getCurrentUser",
+      "lambdaFunction": "getUser",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "read"
+        ]
+      }
     }
   }
 }

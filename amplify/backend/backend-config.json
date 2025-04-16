@@ -9,6 +9,14 @@
           ],
           "category": "function",
           "resourceName": "insertUser"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "getUser"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -97,6 +105,17 @@
     },
     "getUser": {
       "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "users"
+        }
+      ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },

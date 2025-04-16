@@ -4,8 +4,8 @@
       <div class="user-panel">
         <div class="user-buttons">
           <h3>Menu</h3>
-          <button @click="test" class="info-button">👤 Voir mes infos</button>
-          <button @click="handleSignOut" class="signout-button">🚪 Déconnexion</button>
+          <button class="info-button">👤 Voir mes infos</button>
+          <button class="signout-button">🚪 Déconnexion</button>
         </div>
       </div>
 
@@ -16,17 +16,11 @@
             class="avatar"
           />
           <div>
-            <div class="user-name">{{ username }}</div>
-            <div class="user-role">ID: {{ userId }}</div>
+            <div class="user-field">{{ email }}</div>
+            <div class="user-field">{{ firstName }} {{ lastName }}</div>
+            <div class="user-field">{{ userId }}</div>
           </div>
-          
-          <div class="user-details">
-            <div><strong>Username :</strong> {{ username }}</div>
-            <div><strong>User ID :</strong> {{ userId }}</div>
-          </div>
-
         </div>
-      
     </section>
   </DarkModeLayout>
 
@@ -36,51 +30,48 @@
 
 <script>
 import DarkModeLayout from '@/layouts/DarkModeLayout.vue';
-//import formContainer from '@/components/form/formContainer.vue';
-//import formField from '@/components/form/formField/formField.vue';
-//import formSubmitBtn from '@/components/form/formSubmitBtn/formSubmitBtn.vue';
-//import formLabel from '@/components/form/formLabel/formLabel.vue';
-import { getCurrentUser } from 'aws-amplify/auth';
+import { inject } from 'vue';
+import { get } from 'aws-amplify/api'
 
 export default {
   name: 'UserPage',
   components: {
     DarkModeLayout,
-    // formContainer,
-    // formField,
-    // formSubmitBtn,
-    // formLabel,
+  },
+  setup() {
+    const store = inject('store');
+    return {
+      store
+    };
   },
   data() {
     return {
-      phone: '',
-      adresse: '',
-      username: '',
-      userId: '',
-      signInDetails: null,
+      email: null,
+      lastName: null,
+      firstName: null,
+      userId: null,
     };
   },
-  async mounted() {
-    await this.loadUser();
+  created() {
+    this.getUser();
   },
   methods: {
-    async loadUser() {
+    async getUser() {
       try {
-        const { username, userId, signInDetails } = await getCurrentUser();
-        this.username = username;
-        this.userId = userId;
-        this.signInDetails = signInDetails;
-      } catch (error) {
-        console.error('Erreur récupération user :', error);
+        const restOperation = get({
+          apiName: 'users',
+          path: '/getCurrentUser'
+        });
+        const response = await restOperation.response;
+        const data = await response.body.json();
+        this.email = data[0].email
+        this.lastName = data[0].last_name
+        this.firstName = data[0].first_name
+        this.userId = data[0].user_id
+      } catch (e) {
+        console.log('GET call failed: ', e);
       }
-    },
-    test() {
-      console.log(this.username, this.userId, this.signInDetails);
-    },
-    handleSubmit() {
-      console.log('Téléphone :', this.phone);
-      console.log('Adresse :', this.adresse);
-    },
+    }
   },
 };
 </script>
@@ -173,7 +164,7 @@ export default {
   object-fit: cover;
 }
 
-.user-name {
+.user-field {
   font-size: 18px;
   font-weight: 600;
   color: #030303;

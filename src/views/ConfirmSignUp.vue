@@ -22,7 +22,6 @@ import formSubmitBtn from '@/components/form/formSubmitBtn/formSubmitBtn.vue';
 import { confirmSignUp } from 'aws-amplify/auth';
 import formLabel from '@/components/form/formLabel/formLabel.vue';
 
-
 export default {
   name: "ConfirmSignUp",
   components: {
@@ -53,7 +52,7 @@ export default {
         console.log("Sign-up success! User ID:", isSignUpComplete);
         console.log("Next step:", nextStep);
         if (isSignUpComplete) {
-          this.$router.push({ path: "/user" })
+          this.$router.push({ path: "/login" })
         }
       } catch (error) {
         console.error("Erreur lors de l'inscription:", error);
