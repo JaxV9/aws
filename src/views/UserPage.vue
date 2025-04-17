@@ -24,11 +24,10 @@
 
 <script>
 import DarkModeLayout from '@/layouts/DarkModeLayout.vue';
-import { Amplify } from 'aws-amplify';
+import { Amplify, Storage } from 'aws-amplify';
 import awsconfig from '../aws-exports'; // Assurez-vous que ce fichier existe et est correctement configuré
-import { Storage } from '@aws-amplify/storage';
-import { signOut } from '@aws-amplify/auth';
-import { get } from '@aws-amplify/api';
+import { signOut } from 'aws-amplify/auth';
+import { get } from 'aws-amplify/api';
 
 Amplify.configure(awsconfig);
 
