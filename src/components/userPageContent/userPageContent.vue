@@ -57,8 +57,8 @@ h1 {
 }
 
 .user-infos {
-    background-color: red;
-    font-size: 16px;
+    text-align: start;
+    font-size: 18px;
 }
 
 </style>
