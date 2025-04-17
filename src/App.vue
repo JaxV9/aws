@@ -25,4 +25,7 @@ body.dark-mode {
   background-color: #000;
   color: #c9d1d9;
 }
+a {
+  text-decoration: none;
+}
 </style>

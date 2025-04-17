@@ -1,13 +1,7 @@
 <template>
   <DarkModeLayout>
     <section class="grid-container">
-      <div class="user-panel">
-        <div class="user-buttons">
-          <h3>Menu</h3>
-          <button class="info-button">👤 Voir mes infos</button>
-          <button class="signout-button">🚪 Déconnexion</button>
-        </div>
-      </div>
+      <userMenu />
 
       <div class="user-info">
         <img
@@ -54,6 +48,7 @@ import formContainer from '@/components/form/formContainer.vue';
 import formField from '@/components/form/formField/formField.vue';
 import formSubmitBtn from '@/components/form/formSubmitBtn/formSubmitBtn.vue';
 import formLabel from '@/components/form/formLabel/formLabel.vue';
+import userMenu from '@/components/menu/userMenu/userMenu.vue';
 
 export default {
   name: 'UserPage',
@@ -62,7 +57,8 @@ export default {
     formContainer,
     formField,
     formSubmitBtn,
-    formLabel
+    formLabel,
+    userMenu
   },
   setup() {
     const store = inject('store');
@@ -165,16 +161,6 @@ export default {
 
 .adress-container>h3 {
   margin-bottom: 0;
-}
-
-.user-panel {
-  grid-area: 1 / 1 / 2 / 2;
-  border-right: 1px solid #e1e1e1;
-  padding: 2rem 1rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  gap: 2rem;
 }
 
 .user-buttons {
