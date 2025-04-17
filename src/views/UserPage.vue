@@ -24,8 +24,8 @@
               <formField :forId="'adress'" :type="'text'" v-model:model="newAdress" />
               <formSubmitBtn :text="'Add adress'" />
             </formContainer>
+            <input type="file" @change="uploadImage" />
         </div>
-        <!-- <input type="file" @change="uploadImage" /> -->
       </userPageContent>
     </section>
   </DarkModeLayout>
