@@ -2,8 +2,8 @@
   <DarkModeLayout>
     <section class="grid-container">
       <userMenu />
-
-      <div class="user-info">
+      <userPageContent :title="'Overview'" />
+      <!-- <div class="user-info">
         <img
           src="https://cdn.futura-sciences.com/cdn-cgi/image/width=1920,quality=50,format=auto/sources/images/dossier/773/01-intro-773.jpg"
           alt="Avatar" class="avatar" />
@@ -24,15 +24,8 @@
               <formField :forId="'adress'" :type="'text'" v-model:model="newAdress" />
               <formSubmitBtn :text="'Add adress'" />
             </formContainer>
-          <!-- <div class="adress-list">
-            <formContainer :callback="createAdress">
-              <formLabel :forInput="'adress'" :text="'New adress'" />
-              <formField :forId="'adress'" :type="'text'" v-model:model="newAdress" />
-              <formSubmitBtn :text="'Add adress'" />
-            </formContainer>
-          </div> -->
         </div>
-      </div>
+      </div> -->
     </section>
   </DarkModeLayout>
 
@@ -44,20 +37,22 @@
 import DarkModeLayout from '@/layouts/DarkModeLayout.vue';
 import { inject } from 'vue';
 import { get, post } from 'aws-amplify/api'
-import formContainer from '@/components/form/formContainer.vue';
-import formField from '@/components/form/formField/formField.vue';
-import formSubmitBtn from '@/components/form/formSubmitBtn/formSubmitBtn.vue';
-import formLabel from '@/components/form/formLabel/formLabel.vue';
+// import formContainer from '@/components/form/formContainer.vue';
+// import formField from '@/components/form/formField/formField.vue';
+// import formSubmitBtn from '@/components/form/formSubmitBtn/formSubmitBtn.vue';
+// import formLabel from '@/components/form/formLabel/formLabel.vue';
 import userMenu from '@/components/menu/userMenu/userMenu.vue';
+import userPageContent from '@/components/userPageContent/userPageContent.vue';
 
 export default {
   name: 'UserPage',
   components: {
     DarkModeLayout,
-    formContainer,
-    formField,
-    formSubmitBtn,
-    formLabel,
+    userPageContent,
+    // formContainer,
+    // formField,
+    // formSubmitBtn,
+    // formLabel,
     userMenu
   },
   setup() {
