@@ -4,13 +4,13 @@
       <userMenu />
       <userPageContent :title="'Overview'" :firstName="firstName" :lastName="lastName">
         <div class="user-overview-container">
-          <img v-if="uploadedImageUrl" :src="uploadedImageUrl[0]" alt="User Image"
+          <img v-if="uploadedImageUrl && uploadedImageUrl.length > 0" :src="uploadedImageUrl[0]" alt="User Image"
             class="user-image" />
           <div class="user-overview-infos">
             <div>
               <h3>{{ firstName }} {{ lastName }}</h3>
               <p>{{ email }}</p>
-              <span>Update your profile picture
+              <span>{{waitUploadImage ? 'Uploading...' :'Update your profile picture'}}
               <input type="file" @change="uploadImage" /></span>
             </div>
           </div>
@@ -24,7 +24,7 @@
             <formContainer v-if="adressFormIsDisplay" :callback="createAdress">
               <formLabel :forInput="'adress'" :text="'New adress'" />
               <formField :forId="'adress'" :type="'text'" v-model:model="newAdress" />
-              <formSubmitBtn :text="'Add adress'" />
+              <formSubmitBtn :text="waitUploadAdress ? 'wait...' :'Add adress'" />
             </formContainer>
         </div>
       </userPageContent>
@@ -71,7 +71,9 @@ export default {
       newAdress: null,
       adressFormIsDisplay: false,
       adresses: [],
-      uploadedImageUrl: null
+      uploadedImageUrl: null,
+      waitUploadAdress: false,
+      waitUploadImage: false
     };
   },
   created() {
@@ -96,9 +98,11 @@ export default {
     },
     async createAdress() {
       try {
+        this.waitUploadAdress = true;
         await userService.createAdress(this.newAdress);
         this.adressFormIsDisplay = !this.adressFormIsDisplay;
         await this.getAdresses();
+        this.waitUploadAdress = false;
         this.newAdress = null;
       } catch {
         console.log("error")
@@ -110,18 +114,20 @@ export default {
     async uploadImage(event) {
       const file = event.target.files[0];
       try {
+        this.waitUploadImage = true;
         await userService.uploadImage(file)
         await new Promise(resolve => setTimeout(resolve, 2000)); // 2s delay
         await this.getCurrentImage();
+        this.waitUploadImage = false;
       } catch {
         console.log("error")
       }
     },
     async getCurrentImage() {
-
       try {
         const profileImage = await userService.getCurrentImage();
         this.uploadedImageUrl = profileImage;
+        console.log(profileImage)
       } catch {
         console.log("error")
       }
