@@ -4,12 +4,14 @@
       <userMenu />
       <userPageContent :title="'Overview'" :firstName="firstName" :lastName="lastName">
         <div class="user-overview-container">
-          <img v-if="uploadedImageUrls && uploadedImageUrls.length" :src="uploadedImageUrls[0]" alt="User Image"
+          <img v-if="uploadedImageUrl" :src="uploadedImageUrl[0]" alt="User Image"
             class="user-image" />
           <div class="user-overview-infos">
             <div>
               <h3>{{ firstName }} {{ lastName }}</h3>
               <p>{{ email }}</p>
+              <span>Update your profile picture
+              <input type="file" @change="uploadImage" /></span>
             </div>
           </div>
         </div>
@@ -18,13 +20,12 @@
           <div>
             <p v-for="adresse in adresses" :key="adresse">{{ adresse }}</p>
           </div>
-          <button v-if="!adressFormIsDisplay" @click="toggleAdressForm()">Add an adress</button>
+          <button class="addAdress" v-if="!adressFormIsDisplay" @click="toggleAdressForm()">Add an adress</button>
             <formContainer v-if="adressFormIsDisplay" :callback="createAdress">
               <formLabel :forInput="'adress'" :text="'New adress'" />
               <formField :forId="'adress'" :type="'text'" v-model:model="newAdress" />
               <formSubmitBtn :text="'Add adress'" />
             </formContainer>
-            <input type="file" @change="uploadImage" />
         </div>
       </userPageContent>
     </section>
@@ -33,21 +34,17 @@
 
 
 </template>
-
 <script>
 import DarkModeLayout from '@/layouts/DarkModeLayout.vue';
 import { inject } from 'vue';
-import { get, post } from 'aws-amplify/api'
-import { uploadData, list, getUrl } from 'aws-amplify/storage';
 import userMenu from '@/components/menu/userMenu/userMenu.vue';
 import userPageContent from '@/components/userPageContent/userPageContent.vue';
 import formContainer from '@/components/form/formContainer.vue';
 import formField from '@/components/form/formField/formField.vue';
 import formLabel from '@/components/form/formLabel/formLabel.vue';
 import formSubmitBtn from '@/components/form/formSubmitBtn/formSubmitBtn.vue';
-import { fetchAuthSession } from '@aws-amplify/auth';
 
-
+import userService  from '@/services/userService';
 export default {
   name: 'UserPage',
   components: {
@@ -80,59 +77,31 @@ export default {
   created() {
     this.getUser();
     this.getAdresses();
-    this.getAllImages()
+    this.getCurrentImage()
   },
   methods: {
     async getUser() {
-      try {
-        const restOperation = get({
-          apiName: 'users',
-          path: '/getCurrentUser'
-        });
-        const response = await restOperation.response;
-        const data = await response.body.json();
-        this.email = data[0].email
-        this.lastName = data[0].last_name
-        this.firstName = data[0].first_name
-        this.userId = data[0].id
-      } catch (e) {
-        console.log('GET call failed: ', e);
-      }
+      const user = await userService.getUser();
+      this.email = user.email
+      this.lastName = user.last_name
+      this.firstName = user.first_name
+      this.userId = user.id
     },
     async getAdresses() {
-      try {
-        const restOperation = get({
-          apiName: 'getAdresses',
-          path: '/getAdresses'
-        });
-        const response = await restOperation.response;
-        const data = await response.body.json();
-        this.adresses = []
-        data.map((element) => {
-          this.adresses.push(element.name)
-        })
-      } catch (e) {
-        console.log('GET call failed: ', e);
-      }
+      const adressesList = await userService.getAdresses();
+      this.adresses = [];
+      adressesList.map((adresse) => {
+          this.adresses.push(adresse.name)
+      })
     },
     async createAdress() {
       try {
-        const restOperation = post({
-          apiName: 'createAdress',
-          path: '/createAdress',
-          options: {
-            body: {
-              adress: this.newAdress
-            },
-          }
-        });
-
-        const { body } = await restOperation.response;
-        await body.json();
+        await userService.createAdress(this.newAdress);
         this.adressFormIsDisplay = !this.adressFormIsDisplay;
         await this.getAdresses();
-      } catch (e) {
-        console.log('GET call failed: ', e);
+        this.newAdress = null;
+      } catch {
+        console.log("error")
       }
     },
     toggleAdressForm() {
@@ -141,40 +110,23 @@ export default {
     async uploadImage(event) {
       const file = event.target.files[0];
       try {
-        uploadData({
-          path: ({ identityId }) => `protected/${identityId}/images/${Date.now()}-${file.name}`,
-          data: file,
-        }).result;
-        await this.getAllImages();
-      } catch (error) {
-        console.log('Error : ', error);
+        await userService.uploadImage(file)
+        await new Promise(resolve => setTimeout(resolve, 2000)); // 2s delay
+        await this.getCurrentImage();
+      } catch {
+        console.log("error")
       }
     },
-    async getAllImages() {
+    async getCurrentImage() {
+
       try {
-        // const credentials = await Auth.currentUserCredentials();
-        // const identityId = credentials.identityId;
-        const session = await fetchAuthSession();
-        const identityId = session.identityId;
-
-        const result = await list({
-          path: `protected/${identityId}/images/`
-        });
-
-        const sortedItems = result.items.sort((a, b) => new Date(b.lastModified) - new Date(a.lastModified));
-
-        const imageUrls = await Promise.all(
-          sortedItems.slice(0, 1).map(async (file) => {
-            const urlResult = await getUrl({ path: file.path });
-            return urlResult.url;
-          })
-        );
-
-        this.uploadedImageUrls = imageUrls; // Assurez-vous que cette variable est définie dans data()
-      } catch (error) {
-        console.log('Erreur lors de la récupération des images:', error);
+        const profileImage = await userService.getCurrentImage();
+        this.uploadedImageUrl = profileImage;
+      } catch {
+        console.log("error")
       }
-    }
+
+    },
   },
 };
 </script>
@@ -209,14 +161,22 @@ export default {
 
 .user-overview-infos {
   text-align: start;
-  display: grid;
-  grid-template-columns: 20% 80%;
 }
 
 .adress-container {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  text-align: start;
+}
+
+.addAdress {
+  margin: inherit
+}
+
+#adressForm {
+  margin-right: auto;
+  margin-left: none;
 }
 
 .adress-container>h3 {

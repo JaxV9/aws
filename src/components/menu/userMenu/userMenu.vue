@@ -10,12 +10,12 @@
                     <div class="icon overview-icon-dark" :class="{ active: isUserRoute }"></div><span>Overview</span>
                 </div>
             </router-link>
-                <div v-if="!store.appIsDark" class="menu-nav-element">
-                    <div class="icon logout-icon"></div><span>Log-out</span>
-                </div>
-                <div v-if="store.appIsDark" class="menu-nav-element-dark">
-                    <div class="icon logout-icon-dark"></div><span>Log-out</span>
-                </div>
+            <div @click="signOutUser()" v-if="!store.appIsDark" class="menu-nav-element">
+                <div class="icon logout-icon"></div><span>Log-out</span>
+            </div>
+            <div @click="signOutUser()" v-if="store.appIsDark" class="menu-nav-element-dark">
+                <div class="icon logout-icon-dark"></div><span>Log-out</span>
+            </div>
         </div>
     </div>
 </template>
@@ -24,6 +24,7 @@
 import { inject } from 'vue';
 import { useRoute } from 'vue-router';
 import { computed } from 'vue';
+import { signOut } from 'aws-amplify/auth';
 
 export default {
     name: "userMenu",
@@ -40,7 +41,14 @@ export default {
     props: {
     },
     methods: {
-
+        async signOutUser() {
+            try {
+                await signOut();
+                window.location.href = '/login';
+            } catch (error) {
+                console.error('Erreur de déconnexion:', error);
+            }
+        },
     }
 };
 </script>
@@ -62,7 +70,8 @@ export default {
     gap: 16px;
 }
 
-.menu-nav-element, .menu-nav-element-dark {
+.menu-nav-element,
+.menu-nav-element-dark {
     cursor: pointer;
     font-size: 18px;
     color: #969696;
@@ -84,6 +93,7 @@ export default {
     background-image: url('@/assets/overviewIcon.svg');
     transition: all ease 0.2s;
 }
+
 .menu-nav-element-dark:hover .overview-icon-dark {
     background-image: url('@/assets/overviewIconDark.svg');
     transition: all ease 0.2s;
@@ -93,6 +103,7 @@ export default {
     background-image: url('@/assets/logoutIcon.svg');
     transition: all ease 0.2s;
 }
+
 .menu-nav-element-dark:hover .logout-icon-dark {
     background-image: url('@/assets/logoutIconDark.svg');
     transition: all ease 0.2s;
