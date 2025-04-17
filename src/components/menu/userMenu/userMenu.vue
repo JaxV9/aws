@@ -3,13 +3,19 @@
         <h3>Menu</h3>
         <div class="menu-nav-list">
             <router-link to="/user">
-                <div class="menu-nav-element" :class="{ active: isUserRoute }">
+                <div v-if="!store.appIsDark" class="menu-nav-element" :class="{ active: isUserRoute }">
                     <div class="icon overview-icon" :class="{ active: isUserRoute }"></div><span>Overview</span>
                 </div>
+                <div v-if="store.appIsDark" class="menu-nav-element-dark" :class="{ active: isUserRoute }">
+                    <div class="icon overview-icon-dark" :class="{ active: isUserRoute }"></div><span>Overview</span>
+                </div>
             </router-link>
-            <div class="menu-nav-element">
-                <div class="icon logout-icon"></div><span>Log-out</span>
-            </div>
+                <div v-if="!store.appIsDark" class="menu-nav-element">
+                    <div class="icon logout-icon"></div><span>Log-out</span>
+                </div>
+                <div v-if="store.appIsDark" class="menu-nav-element-dark">
+                    <div class="icon logout-icon-dark"></div><span>Log-out</span>
+                </div>
         </div>
     </div>
 </template>
@@ -56,7 +62,7 @@ export default {
     gap: 16px;
 }
 
-.menu-nav-element {
+.menu-nav-element, .menu-nav-element-dark {
     cursor: pointer;
     font-size: 18px;
     color: #969696;
@@ -78,14 +84,30 @@ export default {
     background-image: url('@/assets/overviewIcon.svg');
     transition: all ease 0.2s;
 }
+.menu-nav-element-dark:hover .overview-icon-dark {
+    background-image: url('@/assets/overviewIconDark.svg');
+    transition: all ease 0.2s;
+}
 
 .menu-nav-element:hover .logout-icon {
     background-image: url('@/assets/logoutIcon.svg');
     transition: all ease 0.2s;
 }
+.menu-nav-element-dark:hover .logout-icon-dark {
+    background-image: url('@/assets/logoutIconDark.svg');
+    transition: all ease 0.2s;
+}
 
 .menu-nav-element.active {
     color: black;
+}
+
+.menu-nav-element-dark:hover {
+    color: white;
+}
+
+.menu-nav-element-dark.active {
+    color: white;
 }
 
 .icon {
@@ -107,7 +129,23 @@ export default {
     background-image: url('@/assets/overviewIcon.svg');
 }
 
+.overview-icon-dark {
+    background-image: url('@/assets/overviewIconGrey.svg');
+}
+
+.overview-icon-dark.active {
+    background-image: url('@/assets/overviewIconDark.svg');
+}
+
 .logout-icon {
     background-image: url('@/assets/logoutIconGrey.svg');
+}
+
+.logout-icon-dark {
+    background-image: url('@/assets/logoutIconGrey.svg');
+}
+
+.logout-icon-dark.active {
+    background-image: url('@/assets/logoutIconDark.svg');
 }
 </style>
