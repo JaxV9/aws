@@ -1,42 +1,60 @@
 <template>
   <DarkModeLayout>
-   <section class="grid-container">
-      <div class="user-panel">
-        <div class="user-buttons">
-          <h3>Menu</h3>
-          <button class="info-button">👤 Voir mes infos</button>
-          <button class="signout-button">🚪 Déconnexion</button>
-        </div>
-      </div>
-
-      <div class="user-info">
-          <img
-            src="https://cdn.futura-sciences.com/cdn-cgi/image/width=1920,quality=50,format=auto/sources/images/dossier/773/01-intro-773.jpg"
-            alt="Avatar"
-            class="avatar"
-          />
-          <div>
-            <div class="user-field">{{ email }}</div>
-            <div class="user-field">{{ firstName }} {{ lastName }}</div>
-            <div class="user-field">{{ userId }}</div>
+    <section class="grid-container">
+      <userMenu />
+      <userPageContent :title="'Overview'" :firstName="firstName" :lastName="lastName">
+        <div class="user-overview-container">
+          <img v-if="uploadedImageUrl" :src="uploadedImageUrl[0]" alt="User Image"
+            class="user-image" />
+          <div class="user-overview-infos">
+            <div>
+              <h3>{{ firstName }} {{ lastName }}</h3>
+              <p>{{ email }}</p>
+              <span>Update your profile picture
+              <input type="file" @change="uploadImage" /></span>
+            </div>
           </div>
         </div>
+        <div class="adress-container">
+          <h3>Your addresses:</h3>
+          <div>
+            <p v-for="adresse in adresses" :key="adresse">{{ adresse }}</p>
+          </div>
+          <button class="addAdress" v-if="!adressFormIsDisplay" @click="toggleAdressForm()">Add an adress</button>
+            <formContainer v-if="adressFormIsDisplay" :callback="createAdress">
+              <formLabel :forInput="'adress'" :text="'New adress'" />
+              <formField :forId="'adress'" :type="'text'" v-model:model="newAdress" />
+              <formSubmitBtn :text="'Add adress'" />
+            </formContainer>
+        </div>
+      </userPageContent>
     </section>
   </DarkModeLayout>
 
 
-  
-</template>
 
+</template>
 <script>
 import DarkModeLayout from '@/layouts/DarkModeLayout.vue';
 import { inject } from 'vue';
-import { get } from 'aws-amplify/api'
+import userMenu from '@/components/menu/userMenu/userMenu.vue';
+import userPageContent from '@/components/userPageContent/userPageContent.vue';
+import formContainer from '@/components/form/formContainer.vue';
+import formField from '@/components/form/formField/formField.vue';
+import formLabel from '@/components/form/formLabel/formLabel.vue';
+import formSubmitBtn from '@/components/form/formSubmitBtn/formSubmitBtn.vue';
 
+import userService  from '@/services/userService';
 export default {
   name: 'UserPage',
   components: {
     DarkModeLayout,
+    userPageContent,
+    userMenu,
+    formContainer,
+    formField,
+    formLabel,
+    formSubmitBtn
   },
   setup() {
     const store = inject('store');
@@ -50,28 +68,65 @@ export default {
       lastName: null,
       firstName: null,
       userId: null,
+      newAdress: null,
+      adressFormIsDisplay: false,
+      adresses: [],
+      uploadedImageUrl: null
     };
   },
   created() {
     this.getUser();
+    this.getAdresses();
+    this.getCurrentImage()
   },
   methods: {
     async getUser() {
+      const user = await userService.getUser();
+      this.email = user.email
+      this.lastName = user.last_name
+      this.firstName = user.first_name
+      this.userId = user.id
+    },
+    async getAdresses() {
+      const adressesList = await userService.getAdresses();
+      this.adresses = [];
+      adressesList.map((adresse) => {
+          this.adresses.push(adresse.name)
+      })
+    },
+    async createAdress() {
       try {
-        const restOperation = get({
-          apiName: 'users',
-          path: '/getCurrentUser'
-        });
-        const response = await restOperation.response;
-        const data = await response.body.json();
-        this.email = data[0].email
-        this.lastName = data[0].last_name
-        this.firstName = data[0].first_name
-        this.userId = data[0].user_id
-      } catch (e) {
-        console.log('GET call failed: ', e);
+        await userService.createAdress(this.newAdress);
+        this.adressFormIsDisplay = !this.adressFormIsDisplay;
+        await this.getAdresses();
+        this.newAdress = null;
+      } catch {
+        console.log("error")
       }
-    }
+    },
+    toggleAdressForm() {
+      this.adressFormIsDisplay = !this.adressFormIsDisplay
+    },
+    async uploadImage(event) {
+      const file = event.target.files[0];
+      try {
+        await userService.uploadImage(file)
+        await new Promise(resolve => setTimeout(resolve, 2000)); // 2s delay
+        await this.getCurrentImage();
+      } catch {
+        console.log("error")
+      }
+    },
+    async getCurrentImage() {
+
+      try {
+        const profileImage = await userService.getCurrentImage();
+        this.uploadedImageUrl = profileImage;
+      } catch {
+        console.log("error")
+      }
+
+    },
   },
 };
 </script>
@@ -87,14 +142,45 @@ export default {
   padding-top: 2%;
 }
 
-.user-panel {
-  grid-area: 1 / 1 / 2 / 2;
-  border-right: 1px solid #e1e1e1;
-  padding: 2rem 1rem;
+.user-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+}
+
+.user-overview-container {
+  text-align: start;
+  display: grid;
+  grid-template-columns: 30% 70%;
+}
+
+.user-overview-infos {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.user-overview-infos {
+  text-align: start;
+}
+
+.adress-container {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  gap: 2rem;
+  gap: 16px;
+  text-align: start;
+}
+
+.addAdress {
+  margin: inherit
+}
+
+#adressForm {
+  margin-right: auto;
+  margin-left: none;
+}
+
+.adress-container>h3 {
+  margin-bottom: 0;
 }
 
 .user-buttons {
@@ -131,7 +217,7 @@ export default {
 }
 
 .info-button {
-  background-color: #1e3a8a; 
+  background-color: #1e3a8a;
   color: #fff;
 }
 
@@ -140,7 +226,7 @@ export default {
 }
 
 .signout-button {
-  background-color: #7f1d1d; 
+  background-color: #7f1d1d;
   color: #fff;
 }
 
@@ -148,32 +234,6 @@ export default {
   background-color: #dc2626;
 }
 
-.user-info {
-  grid-area: 1 / 2 / 2 / 3;
-  padding: 3rem;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  align-items: center;
-}
-
-.avatar {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.user-field {
-  font-size: 18px;
-  font-weight: 600;
-  color: #030303;
-}
-
-.user-role {
-  font-size: 14px;
-  color: #030303;
-}
 
 .user-details {
   margin-top: 1rem;

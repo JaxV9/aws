@@ -7,8 +7,6 @@ dynamodb = boto3.resource('dynamodb')
 userTableRef = os.environ.get('STORAGE_USERS_NAME')
 
 def handler(event, context):
-    print('received event:')
-    print(event)
   
     user_id = event.get('user_id')
     email = event.get('email')
@@ -26,7 +24,6 @@ def handler(event, context):
 
     try:
         table.put_item(Item=user_item)
-        print('User created in DynamoDB')
     except Exception as error:
         print('Erreur lors de l\'insertion dans DynamoDB:', error)
 
