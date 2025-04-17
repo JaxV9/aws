@@ -5,8 +5,10 @@
         </div>
         <div class="content">
             <div class="user-infos">
-                <p>User name: </p>
                 <p>{{ firstName }} {{ lastName }}</p>
+            </div>
+            <div>
+                <slot></slot>
             </div>
         </div>
     </section>

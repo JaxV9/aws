@@ -2,7 +2,15 @@
   <DarkModeLayout>
     <section class="grid-container">
       <userMenu />
-      <userPageContent :title="'Overview'" :firstName="firstName" :lastName="lastName" />
+      <userPageContent :title="'Overview'" :firstName="firstName" :lastName="lastName">
+        <input type="file" @change="uploadImage" />
+        <div v-if="uploadedImageUrls.length > 0" class="image-container">
+          <h3>Vos images :</h3>
+          <div v-for="url in uploadedImageUrls" :key="url" class="image-item">
+            <img :src="url" alt="User Image" class="user-image" />
+          </div>
+        </div>
+      </userPageContent>
       <!-- <div class="user-info">
         <img
           src="https://cdn.futura-sciences.com/cdn-cgi/image/width=1920,quality=50,format=auto/sources/images/dossier/773/01-intro-773.jpg"
@@ -26,7 +34,7 @@
             </formContainer>
         </div>
       </div> -->
-      <input type="file" @change="uploadImage" />
+      <!-- <input type="file" @change="uploadImage" /> -->
     </section>
   </DarkModeLayout>
 
@@ -39,7 +47,7 @@ import DarkModeLayout from '@/layouts/DarkModeLayout.vue';
 import { inject } from 'vue';
 import { get, post } from 'aws-amplify/api'
 import { uploadData, list, getUrl } from 'aws-amplify/storage';
-import { Auth } from 'aws-amplify';
+// import { Auth } from 'aws-amplify';
 import userMenu from '@/components/menu/userMenu/userMenu.vue';
 import userPageContent from '@/components/userPageContent/userPageContent.vue';
 
@@ -156,21 +164,22 @@ export default {
     },
     async getAllImages() {
       try {
-        const credentials = await Auth.currentCredentials();
-        const identityId = credentials.identityId;
+        // const credentials = await Auth.currentUserCredentials();
+        // const identityId = credentials.identityId;
 
         const result = await list({
-          path: `protected/${identityId}/images/`
+          path: `protected/eu-west-1:0d90d164-0792-c69f-8988-00e9df646011/images/`
         });
 
+        const sortedItems = result.items.sort((a, b) => new Date(b.lastModified) - new Date(a.lastModified));
+
         const imageUrls = await Promise.all(
-          result.items.map(async (file) => {
+          sortedItems.slice(0, 1).map(async (file) => {
             const urlResult = await getUrl({ path: file.path });
             return urlResult.url;
           })
         );
 
-        console.log('URLs des images:', imageUrls);
         this.uploadedImageUrls = imageUrls; // Assurez-vous que cette variable est définie dans data()
       } catch (error) {
         console.log('Erreur lors de la récupération des images:', error);
@@ -181,6 +190,11 @@ export default {
 </script>
 
 <style scoped>
+.user-image {
+  width: 500px;
+  height: 500px;
+}
+
 .grid-container {
   display: grid;
   grid-template-columns: 220px 1fr;
