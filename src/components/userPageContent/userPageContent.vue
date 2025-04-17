@@ -4,12 +4,7 @@
             <h1>{{ title }}</h1>
         </div>
         <div class="content">
-            <div class="user-infos">
-                <p>{{ firstName }} {{ lastName }}</p>
-            </div>
-            <div>
-                <slot></slot>
-            </div>
+            <slot></slot>
         </div>
     </section>
 </template>
@@ -56,11 +51,6 @@ section.isDark {
 h1 {
   font-size: 28px;
   text-align: start;
-}
-
-.user-infos {
-    text-align: start;
-    font-size: 18px;
 }
 
 </style>

@@ -3,24 +3,16 @@
     <section class="grid-container">
       <userMenu />
       <userPageContent :title="'Overview'" :firstName="firstName" :lastName="lastName">
-        <input type="file" @change="uploadImage" />
-        <div v-if="uploadedImageUrls.length > 0" class="image-container">
-          <h3>Vos images :</h3>
-          <div v-for="url in uploadedImageUrls" :key="url" class="image-item">
-            <img :src="url" alt="User Image" class="user-image" />
+        <div class="user-overview-container">
+          <img v-if="uploadedImageUrls && uploadedImageUrls.length" :src="uploadedImageUrls[0]" alt="User Image"
+            class="user-image" />
+          <div class="user-overview-infos">
+            <div>
+              <h3>{{ firstName }} {{ lastName }}</h3>
+              <p>{{ email }}</p>
+            </div>
           </div>
         </div>
-      </userPageContent>
-      <!-- <div class="user-info">
-        <img
-          src="https://cdn.futura-sciences.com/cdn-cgi/image/width=1920,quality=50,format=auto/sources/images/dossier/773/01-intro-773.jpg"
-          alt="Avatar" class="avatar" />
-        <div>
-          <p class="user-field">{{ email }}</p>
-          <p class="user-field">{{ firstName }} {{ lastName }}</p>
-          <p class="user-field">{{ userId }}</p>
-        </div>
-
         <div class="adress-container">
           <h3>Your addresses:</h3>
           <div>
@@ -33,8 +25,8 @@
               <formSubmitBtn :text="'Add adress'" />
             </formContainer>
         </div>
-      </div> -->
-      <!-- <input type="file" @change="uploadImage" /> -->
+        <!-- <input type="file" @change="uploadImage" /> -->
+      </userPageContent>
     </section>
   </DarkModeLayout>
 
@@ -50,13 +42,21 @@ import { uploadData, list, getUrl } from 'aws-amplify/storage';
 // import { Auth } from 'aws-amplify';
 import userMenu from '@/components/menu/userMenu/userMenu.vue';
 import userPageContent from '@/components/userPageContent/userPageContent.vue';
+import formContainer from '@/components/form/formContainer.vue';
+import formField from '@/components/form/formField/formField.vue';
+import formLabel from '@/components/form/formLabel/formLabel.vue';
+import formSubmitBtn from '@/components/form/formSubmitBtn/formSubmitBtn.vue';
 
 export default {
   name: 'UserPage',
   components: {
     DarkModeLayout,
     userPageContent,
-    userMenu
+    userMenu,
+    formContainer,
+    formField,
+    formLabel,
+    formSubmitBtn
   },
   setup() {
     const store = inject('store');
@@ -158,6 +158,7 @@ export default {
             }
           }
         }).result;
+        await this.getAllImages();
       } catch (error) {
         console.log('Error : ', error);
       }
@@ -190,11 +191,6 @@ export default {
 </script>
 
 <style scoped>
-.user-image {
-  width: 500px;
-  height: 500px;
-}
-
 .grid-container {
   display: grid;
   grid-template-columns: 220px 1fr;
@@ -203,6 +199,29 @@ export default {
   box-sizing: border-box;
   margin-top: 0%;
   padding-top: 2%;
+}
+
+.user-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+}
+
+.user-overview-container {
+  text-align: start;
+  display: grid;
+  grid-template-columns: 30% 70%;
+}
+
+.user-overview-infos {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.user-overview-infos {
+  text-align: start;
+  display: grid;
+  grid-template-columns: 20% 80%;
 }
 
 .adress-container {
@@ -266,31 +285,6 @@ export default {
   background-color: #dc2626;
 }
 
-.user-info {
-  grid-area: 1 / 2 / 2 / 3;
-  padding: 3rem;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  align-items: center;
-}
-
-.avatar {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.user-field {
-  font-size: 18px;
-  font-weight: 600;
-}
-
-.user-role {
-  font-size: 14px;
-  color: #030303;
-}
 
 .user-details {
   margin-top: 1rem;
