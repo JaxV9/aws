@@ -5,8 +5,6 @@ from boto3.dynamodb.conditions import Key,  Attr
 
 adressTableRef = os.environ.get('STORAGE_ADRESSES_NAME')
 def handler(event, context):
-    print('received event:')
-    print(event)
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table(adressTableRef)
     cognitoData = event['requestContext']['identity']['cognitoAuthenticationProvider']
@@ -17,7 +15,6 @@ def handler(event, context):
     )
     items = response['Items']
 
-    print(items)
   
     return {
         'statusCode': 200,

@@ -6,7 +6,6 @@ import os
 userTableRef = os.environ.get('STORAGE_USERS_NAME')
 
 def handler(event, context):
-  print(event)
   dynamodb = boto3.resource('dynamodb')
   table = dynamodb.Table(userTableRef)
   cognitoData = event['requestContext']['identity']['cognitoAuthenticationProvider']
@@ -17,8 +16,6 @@ def handler(event, context):
   )
   items = response['Items']
 
-  print('userid' + userId)
-  print(items)
   
   return {
       'statusCode': 200,

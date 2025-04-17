@@ -9,15 +9,10 @@ adressTableRef = os.environ.get('STORAGE_ADRESSES_NAME')
 def handler(event, context):
   
     dynamodb = boto3.resource('dynamodb')
-    userTable = dynamodb.Table(userTableRef)
     adressTable = dynamodb.Table(adressTableRef)
 
     cognitoData = event['requestContext']['identity']['cognitoAuthenticationProvider']
     userId = cognitoData.split(':')[-1]
-
-    print('received event:')
-    print(event)
-
     body = json.loads(event['body'])
     currentAdress = body.get('adress')
 
