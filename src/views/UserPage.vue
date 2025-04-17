@@ -39,13 +39,14 @@ import DarkModeLayout from '@/layouts/DarkModeLayout.vue';
 import { inject } from 'vue';
 import { get, post } from 'aws-amplify/api'
 import { uploadData, list, getUrl } from 'aws-amplify/storage';
-// import { Auth } from 'aws-amplify';
 import userMenu from '@/components/menu/userMenu/userMenu.vue';
 import userPageContent from '@/components/userPageContent/userPageContent.vue';
 import formContainer from '@/components/form/formContainer.vue';
 import formField from '@/components/form/formField/formField.vue';
 import formLabel from '@/components/form/formLabel/formLabel.vue';
 import formSubmitBtn from '@/components/form/formSubmitBtn/formSubmitBtn.vue';
+import { fetchAuthSession } from '@aws-amplify/auth';
+
 
 export default {
   name: 'UserPage',
@@ -90,7 +91,6 @@ export default {
         });
         const response = await restOperation.response;
         const data = await response.body.json();
-        console.log(data)
         this.email = data[0].email
         this.lastName = data[0].last_name
         this.firstName = data[0].first_name
@@ -107,7 +107,6 @@ export default {
         });
         const response = await restOperation.response;
         const data = await response.body.json();
-        console.log(data);
         this.adresses = []
         data.map((element) => {
           this.adresses.push(element.name)
@@ -129,8 +128,7 @@ export default {
         });
 
         const { body } = await restOperation.response;
-        const response = await body.json();
-        console.log(response);
+        await body.json();
         this.adressFormIsDisplay = !this.adressFormIsDisplay;
         await this.getAdresses();
       } catch (e) {
@@ -145,18 +143,7 @@ export default {
       try {
         uploadData({
           path: ({ identityId }) => `protected/${identityId}/images/${Date.now()}-${file.name}`,
-          // Alternatively, path: ({identityId}) => `protected/${identityId}/album/2024/1.jpg`
           data: file,
-          options: {
-            onProgress: ({ transferredBytes, totalBytes }) => {
-              if (totalBytes) {
-                console.log(
-                  `Upload progress ${Math.round((transferredBytes / totalBytes) * 100)
-                  } %`
-                );
-              }
-            }
-          }
         }).result;
         await this.getAllImages();
       } catch (error) {
@@ -167,9 +154,11 @@ export default {
       try {
         // const credentials = await Auth.currentUserCredentials();
         // const identityId = credentials.identityId;
+        const session = await fetchAuthSession();
+        const identityId = session.identityId;
 
         const result = await list({
-          path: `protected/eu-west-1:0d90d164-0792-c69f-8988-00e9df646011/images/`
+          path: `protected/${identityId}/images/`
         });
 
         const sortedItems = result.items.sort((a, b) => new Date(b.lastModified) - new Date(a.lastModified));
