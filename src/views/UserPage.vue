@@ -8,7 +8,6 @@
           <button class="signout-button" @click="signOutUser">🚪 Déconnexion</button>
           <input type="file" @change="uploadAvatar" accept="image/*" />
         </div>
-      </div>
 
       <div class="user-info">
         <img :src="avatarUrl" alt="Avatar" class="avatar" />
@@ -35,6 +34,8 @@ export default {
   name: 'UserPage',
   components: {
     DarkModeLayout,
+    userPageContent,
+    userMenu
   },
   data() {
     return {
@@ -47,6 +48,8 @@ export default {
   },
   created() {
     this.getUser();
+    this.getAdresses();
+    this.getAllImages()
   },
   methods: {
     async getUser() {
@@ -118,14 +121,14 @@ export default {
   padding-top: 2%;
 }
 
-.user-panel {
-  grid-area: 1 / 1 / 2 / 2;
-  border-right: 1px solid #e1e1e1;
-  padding: 2rem 1rem;
+.adress-container {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  gap: 2rem;
+  gap: 16px;
+}
+
+.adress-container>h3 {
+  margin-bottom: 0;
 }
 
 .user-buttons {
@@ -198,7 +201,6 @@ export default {
 .user-field {
   font-size: 18px;
   font-weight: 600;
-  color: #030303;
 }
 
 .user-role {
