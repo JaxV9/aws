@@ -1,12 +1,33 @@
 <template>
   <DarkModeLayout>
     <section class="grid-container">
+<<<<<<< HEAD
       <div class="user-panel">
         <div class="user-buttons">
           <h3>Menu</h3>
           <button class="info-button">👤 Voir mes infos</button>
           <button class="signout-button" @click="signOutUser">🚪 Déconnexion</button>
           <input type="file" @change="uploadAvatar" accept="image/*" />
+=======
+      <userMenu />
+      <userPageContent :title="'Overview'" :firstName="firstName" :lastName="lastName">
+        <input type="file" @change="uploadImage" />
+        <div v-if="uploadedImageUrls.length > 0" class="image-container">
+          <h3>Vos images :</h3>
+          <div v-for="url in uploadedImageUrls" :key="url" class="image-item">
+            <img :src="url" alt="User Image" class="user-image" />
+          </div>
+        </div>
+      </userPageContent>
+      <!-- <div class="user-info">
+        <img
+          src="https://cdn.futura-sciences.com/cdn-cgi/image/width=1920,quality=50,format=auto/sources/images/dossier/773/01-intro-773.jpg"
+          alt="Avatar" class="avatar" />
+        <div>
+          <p class="user-field">{{ email }}</p>
+          <p class="user-field">{{ firstName }} {{ lastName }}</p>
+          <p class="user-field">{{ userId }}</p>
+>>>>>>> 586f21e069bfa9ab591eab300e2ce2f516fd1920
         </div>
 
       <div class="user-info">
@@ -16,19 +37,33 @@
           <div class="user-field">{{ firstName }} {{ lastName }}</div>
           <div class="user-field">{{ userId }}</div>
         </div>
+<<<<<<< HEAD
       </div>
+=======
+      </div> -->
+      <!-- <input type="file" @change="uploadImage" /> -->
+>>>>>>> 586f21e069bfa9ab591eab300e2ce2f516fd1920
     </section>
   </DarkModeLayout>
 </template>
 
 <script>
 import DarkModeLayout from '@/layouts/DarkModeLayout.vue';
+<<<<<<< HEAD
 import { Amplify, Storage } from 'aws-amplify';
 import awsconfig from '../aws-exports'; // Assurez-vous que ce fichier existe et est correctement configuré
 import { signOut } from 'aws-amplify/auth';
 import { get } from 'aws-amplify/api';
 
 Amplify.configure(awsconfig);
+=======
+import { inject } from 'vue';
+import { get, post } from 'aws-amplify/api'
+import { uploadData, list, getUrl } from 'aws-amplify/storage';
+// import { Auth } from 'aws-amplify';
+import userMenu from '@/components/menu/userMenu/userMenu.vue';
+import userPageContent from '@/components/userPageContent/userPageContent.vue';
+>>>>>>> 586f21e069bfa9ab591eab300e2ce2f516fd1920
 
 export default {
   name: 'UserPage',
@@ -111,6 +146,11 @@ export default {
 </script>
 
 <style scoped>
+.user-image {
+  width: 500px;
+  height: 500px;
+}
+
 .grid-container {
   display: grid;
   grid-template-columns: 220px 1fr;
