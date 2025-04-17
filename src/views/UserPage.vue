@@ -21,6 +21,9 @@
 
         <div class="adress-container">
           <h3>Your addresses:</h3>
+          <div>
+            <p v-for="adresse in adresses" :key="adresse">{{ adresse }}</p>
+          </div>
           <button v-if="!adressFormIsDisplay" @click="toggleAdressForm()">Add an adress</button>
             <formContainer v-if="adressFormIsDisplay" :callback="createAdress">
               <formLabel :forInput="'adress'" :text="'New adress'" />
@@ -75,10 +78,12 @@ export default {
       userId: null,
       newAdress: null,
       adressFormIsDisplay: false,
+      adresses: [],
     };
   },
   created() {
     this.getUser();
+    this.getAdresses();
   },
   methods: {
     async getUser() {
@@ -93,6 +98,23 @@ export default {
         this.lastName = data[0].last_name
         this.firstName = data[0].first_name
         this.userId = data[0].user_id
+      } catch (e) {
+        console.log('GET call failed: ', e);
+      }
+    },
+    async getAdresses() {
+      try {
+        const restOperation = get({
+          apiName: 'getAdresses',
+          path: '/getAdresses'
+        });
+        const response = await restOperation.response;
+        const data = await response.body.json();
+        console.log(data);
+        this.adresses = []
+        data.map((element) => {
+          this.adresses.push(element.name)
+        })
       } catch (e) {
         console.log('GET call failed: ', e);
       }
@@ -112,6 +134,7 @@ export default {
         const response = await body.json();
         console.log(response);
         this.adressFormIsDisplay = !this.adressFormIsDisplay;
+        await this.getAdresses();
       } catch (e) {
         console.log('GET call failed: ', e);
       }
