@@ -1,15 +1,28 @@
+// main.js
 import { createApp } from 'vue';
 import { createRouter, createWebHistory } from 'vue-router';
-import { routes } from './routes';
 import App from './App.vue';
-import { Amplify } from 'aws-amplify';
-import awsmobile from './aws-exports';
+import { routes } from './routes';
+
+// Nouveaux imports Amplify v6
+import { Amplify } from '@aws-amplify/core';
+import awsconfig from './aws-exports';
+
+import { Storage } from '@aws-amplify/storage';
+
+
+// Configuration avec enregistrement des modules
+Amplify.configure(awsconfig, {
+  Storage,
+});
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
 });
 
-Amplify.configure(awsmobile)
-
 createApp(App).use(router).mount('#app');
+
+
+
+

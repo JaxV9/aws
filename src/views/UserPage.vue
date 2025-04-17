@@ -1,48 +1,41 @@
 <template>
   <DarkModeLayout>
-   <section class="grid-container">
+    <section class="grid-container">
       <div class="user-panel">
         <div class="user-buttons">
           <h3>Menu</h3>
           <button class="info-button">👤 Voir mes infos</button>
-          <button class="signout-button">🚪 Déconnexion</button>
+          <button class="signout-button" @click="signOutUser">🚪 Déconnexion</button>
+          <input type="file" @change="uploadAvatar" accept="image/*" />
         </div>
       </div>
 
       <div class="user-info">
-          <img
-            src="https://cdn.futura-sciences.com/cdn-cgi/image/width=1920,quality=50,format=auto/sources/images/dossier/773/01-intro-773.jpg"
-            alt="Avatar"
-            class="avatar"
-          />
-          <div>
-            <div class="user-field">{{ email }}</div>
-            <div class="user-field">{{ firstName }} {{ lastName }}</div>
-            <div class="user-field">{{ userId }}</div>
-          </div>
+        <img :src="avatarUrl" alt="Avatar" class="avatar" />
+        <div>
+          <div class="user-field">{{ email }}</div>
+          <div class="user-field">{{ firstName }} {{ lastName }}</div>
+          <div class="user-field">{{ userId }}</div>
         </div>
+      </div>
     </section>
   </DarkModeLayout>
-
-
-  
 </template>
 
 <script>
 import DarkModeLayout from '@/layouts/DarkModeLayout.vue';
-import { inject } from 'vue';
-import { get } from 'aws-amplify/api'
+import { Amplify } from 'aws-amplify';
+import awsconfig from '../aws-exports'; // Assurez-vous que ce fichier existe et est correctement configuré
+import { Storage } from '@aws-amplify/storage';
+import { signOut } from '@aws-amplify/auth';
+import { get } from '@aws-amplify/api';
+
+Amplify.configure(awsconfig);
 
 export default {
   name: 'UserPage',
   components: {
     DarkModeLayout,
-  },
-  setup() {
-    const store = inject('store');
-    return {
-      store
-    };
   },
   data() {
     return {
@@ -50,6 +43,7 @@ export default {
       lastName: null,
       firstName: null,
       userId: null,
+      avatarUrl: '',
     };
   },
   created() {
@@ -64,14 +58,52 @@ export default {
         });
         const response = await restOperation.response;
         const data = await response.body.json();
-        this.email = data[0].email
-        this.lastName = data[0].last_name
-        this.firstName = data[0].first_name
-        this.userId = data[0].user_id
+
+        this.email = data[0].email;
+        this.lastName = data[0].last_name;
+        this.firstName = data[0].first_name;
+        this.userId = data[0].user_id;
+
+        await this.getAvatar();
       } catch (e) {
-        console.log('GET call failed: ', e);
+        console.error('GET call failed:', e);
       }
-    }
+    },
+
+    async signOutUser() {
+      try {
+        await signOut();
+        window.location.href = '/login';
+      } catch (error) {
+        console.error('Erreur de déconnexion:', error);
+      }
+    },
+
+    async uploadAvatar(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const fileName = `${this.userId}/avatar-${Date.now()}`;
+
+      try {
+        await Storage.put(fileName, file, {
+          contentType: file.type,
+        });
+        this.avatarUrl = await Storage.get(fileName);
+      } catch (error) {
+        console.error('Error uploading file: ', error);
+      }
+    },
+
+    async getAvatar() {
+      try {
+        const fileName = `${this.userId}/avatar`;
+        const avatar = await Storage.get(fileName);
+        this.avatarUrl = avatar;
+      } catch (error) {
+        console.error('Error getting avatar: ', error);
+      }
+    },
   },
 };
 </script>
@@ -131,7 +163,7 @@ export default {
 }
 
 .info-button {
-  background-color: #1e3a8a; 
+  background-color: #1e3a8a;
   color: #fff;
 }
 
@@ -140,7 +172,7 @@ export default {
 }
 
 .signout-button {
-  background-color: #7f1d1d; 
+  background-color: #7f1d1d;
   color: #fff;
 }
 
@@ -186,7 +218,6 @@ export default {
 .user-details strong {
   color: #030303;
 }
-
 
 body.dark-mode .grid-container {
   background-color: #0d1117;
