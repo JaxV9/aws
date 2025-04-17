@@ -27,6 +27,14 @@
     "storageadressesStreamArn": {
       "Type": "String",
       "Default": "storageadressesStreamArn"
+    },
+    "apigetAdressesApiName": {
+      "Type": "String",
+      "Default": "apigetAdressesApiName"
+    },
+    "apigetAdressesApiId": {
+      "Type": "String",
+      "Default": "apigetAdressesApiId"
     }
   },
   "Conditions": {
@@ -90,6 +98,12 @@
             },
             "STORAGE_ADRESSES_STREAMARN": {
               "Ref": "storageadressesStreamArn"
+            },
+            "API_GETADRESSES_APINAME": {
+              "Ref": "apigetAdressesApiName"
+            },
+            "API_GETADRESSES_APIID": {
+              "Ref": "apigetAdressesApiId"
             }
           }
         },
@@ -201,6 +215,32 @@
         "PolicyDocument": {
           "Version": "2012-10-17",
           "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                "apigateway:GET",
+                "apigateway:HEAD",
+                "apigateway:OPTIONS"
+              ],
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:aws:apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      "::/restapis/",
+                      {
+                        "Ref": "apigetAdressesApiName"
+                      },
+                      "/*"
+                    ]
+                  ]
+                }
+              ]
+            },
             {
               "Effect": "Allow",
               "Action": [

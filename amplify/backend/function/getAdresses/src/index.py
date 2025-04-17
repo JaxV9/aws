@@ -13,9 +13,11 @@ def handler(event, context):
     userId = cognitoData.split(':')[-1]
 
     response = table.scan(
-    KeyConditionExpression=Attr('user_id').eq(userId)
+    FilterExpression=Attr('user_id').eq(userId)
     )
     items = response['Items']
+
+    print(items)
   
     return {
         'statusCode': 200,
