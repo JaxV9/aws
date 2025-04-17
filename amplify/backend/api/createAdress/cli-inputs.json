@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "paths": {
+    "/createAdress": {
+      "name": "/createAdress",
+      "lambdaFunction": "createAdress",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read"
+        ]
+      }
+    }
+  }
+}

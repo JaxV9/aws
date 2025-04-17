@@ -1,6 +1,6 @@
 <template>
   <DarkModeLayout>
-   <section class="grid-container">
+    <section class="grid-container">
       <div class="user-panel">
         <div class="user-buttons">
           <h3>Menu</h3>
@@ -10,33 +10,59 @@
       </div>
 
       <div class="user-info">
-          <img
-            src="https://cdn.futura-sciences.com/cdn-cgi/image/width=1920,quality=50,format=auto/sources/images/dossier/773/01-intro-773.jpg"
-            alt="Avatar"
-            class="avatar"
-          />
-          <div>
-            <div class="user-field">{{ email }}</div>
-            <div class="user-field">{{ firstName }} {{ lastName }}</div>
-            <div class="user-field">{{ userId }}</div>
-          </div>
+        <img
+          src="https://cdn.futura-sciences.com/cdn-cgi/image/width=1920,quality=50,format=auto/sources/images/dossier/773/01-intro-773.jpg"
+          alt="Avatar" class="avatar" />
+        <div>
+          <p class="user-field">{{ email }}</p>
+          <p class="user-field">{{ firstName }} {{ lastName }}</p>
+          <p class="user-field">{{ userId }}</p>
         </div>
+
+        <div class="adress-container">
+          <h3>Your addresses:</h3>
+          <div>
+            <p v-for="adresse in adresses" :key="adresse">{{ adresse }}</p>
+          </div>
+          <button v-if="!adressFormIsDisplay" @click="toggleAdressForm()">Add an adress</button>
+            <formContainer v-if="adressFormIsDisplay" :callback="createAdress">
+              <formLabel :forInput="'adress'" :text="'New adress'" />
+              <formField :forId="'adress'" :type="'text'" v-model:model="newAdress" />
+              <formSubmitBtn :text="'Add adress'" />
+            </formContainer>
+          <!-- <div class="adress-list">
+            <formContainer :callback="createAdress">
+              <formLabel :forInput="'adress'" :text="'New adress'" />
+              <formField :forId="'adress'" :type="'text'" v-model:model="newAdress" />
+              <formSubmitBtn :text="'Add adress'" />
+            </formContainer>
+          </div> -->
+        </div>
+      </div>
     </section>
   </DarkModeLayout>
 
 
-  
+
 </template>
 
 <script>
 import DarkModeLayout from '@/layouts/DarkModeLayout.vue';
 import { inject } from 'vue';
-import { get } from 'aws-amplify/api'
+import { get, post } from 'aws-amplify/api'
+import formContainer from '@/components/form/formContainer.vue';
+import formField from '@/components/form/formField/formField.vue';
+import formSubmitBtn from '@/components/form/formSubmitBtn/formSubmitBtn.vue';
+import formLabel from '@/components/form/formLabel/formLabel.vue';
 
 export default {
   name: 'UserPage',
   components: {
     DarkModeLayout,
+    formContainer,
+    formField,
+    formSubmitBtn,
+    formLabel
   },
   setup() {
     const store = inject('store');
@@ -50,10 +76,14 @@ export default {
       lastName: null,
       firstName: null,
       userId: null,
+      newAdress: null,
+      adressFormIsDisplay: false,
+      adresses: [],
     };
   },
   created() {
     this.getUser();
+    this.getAdresses();
   },
   methods: {
     async getUser() {
@@ -71,6 +101,46 @@ export default {
       } catch (e) {
         console.log('GET call failed: ', e);
       }
+    },
+    async getAdresses() {
+      try {
+        const restOperation = get({
+          apiName: 'getAdresses',
+          path: '/getAdresses'
+        });
+        const response = await restOperation.response;
+        const data = await response.body.json();
+        console.log(data);
+        this.adresses = []
+        data.map((element) => {
+          this.adresses.push(element.name)
+        })
+      } catch (e) {
+        console.log('GET call failed: ', e);
+      }
+    },
+    async createAdress() {
+      try {
+        const restOperation = post({
+          apiName: 'createAdress',
+          path: '/createAdress',
+          options: {
+            body: {
+              adress: this.newAdress
+            },
+          }});
+
+        const { body } = await restOperation.response;
+        const response = await body.json();
+        console.log(response);
+        this.adressFormIsDisplay = !this.adressFormIsDisplay;
+        await this.getAdresses();
+      } catch (e) {
+        console.log('GET call failed: ', e);
+      }
+    },
+    toggleAdressForm(){
+      this.adressFormIsDisplay = !this.adressFormIsDisplay
     }
   },
 };
@@ -85,6 +155,16 @@ export default {
   box-sizing: border-box;
   margin-top: 0%;
   padding-top: 2%;
+}
+
+.adress-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.adress-container>h3 {
+  margin-bottom: 0;
 }
 
 .user-panel {
@@ -131,7 +211,7 @@ export default {
 }
 
 .info-button {
-  background-color: #1e3a8a; 
+  background-color: #1e3a8a;
   color: #fff;
 }
 
@@ -140,7 +220,7 @@ export default {
 }
 
 .signout-button {
-  background-color: #7f1d1d; 
+  background-color: #7f1d1d;
   color: #fff;
 }
 
@@ -167,7 +247,6 @@ export default {
 .user-field {
   font-size: 18px;
   font-weight: 600;
-  color: #030303;
 }
 
 .user-role {
