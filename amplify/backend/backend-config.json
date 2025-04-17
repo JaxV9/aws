@@ -205,6 +205,104 @@
       "service": "Lambda"
     }
   },
+  "parameters": {
+    "AMPLIFY_function_createAdress_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "createAdress"
+        }
+      ]
+    },
+    "AMPLIFY_function_createAdress_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "createAdress"
+        }
+      ]
+    },
+    "AMPLIFY_function_createUser_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "createUser"
+        }
+      ]
+    },
+    "AMPLIFY_function_createUser_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "createUser"
+        }
+      ]
+    },
+    "AMPLIFY_function_devops276efd32PostConfirmation_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "devops276efd32PostConfirmation"
+        }
+      ]
+    },
+    "AMPLIFY_function_devops276efd32PostConfirmation_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "devops276efd32PostConfirmation"
+        }
+      ]
+    },
+    "AMPLIFY_function_getAdresses_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "getAdresses"
+        }
+      ]
+    },
+    "AMPLIFY_function_getAdresses_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "getAdresses"
+        }
+      ]
+    },
+    "AMPLIFY_function_getUser_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "getUser"
+        }
+      ]
+    },
+    "AMPLIFY_function_getUser_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "getUser"
+        }
+      ]
+    },
+    "AMPLIFY_function_insertUser_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "insertUser"
+        }
+      ]
+    },
+    "AMPLIFY_function_insertUser_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "insertUser"
+        }
+      ]
+    }
+  },
   "storage": {
     "adresses": {
       "providerPlugin": "awscloudformation",
