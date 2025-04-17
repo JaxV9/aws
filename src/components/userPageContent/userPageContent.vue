@@ -4,7 +4,10 @@
             <h1>{{ title }}</h1>
         </div>
         <div class="content">
-
+            <div class="user-infos">
+                <p>User name: </p>
+                <p>{{ firstName }} {{ lastName }}</p>
+            </div>
         </div>
     </section>
 </template>
@@ -21,7 +24,9 @@ export default {
         };
     },
     props: {
-        title: String
+        title: String,
+        firstName: String,
+        lastName: String
     },
     methods: {
     }
@@ -49,6 +54,11 @@ section.isDark {
 h1 {
   font-size: 28px;
   text-align: start;
+}
+
+.user-infos {
+    background-color: red;
+    font-size: 16px;
 }
 
 </style>

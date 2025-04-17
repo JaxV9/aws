@@ -2,7 +2,7 @@
   <DarkModeLayout>
     <section class="grid-container">
       <userMenu />
-      <userPageContent :title="'Overview'" />
+      <userPageContent :title="'Overview'" :firstName="firstName" :lastName="lastName" />
       <!-- <div class="user-info">
         <img
           src="https://cdn.futura-sciences.com/cdn-cgi/image/width=1920,quality=50,format=auto/sources/images/dossier/773/01-intro-773.jpg"
