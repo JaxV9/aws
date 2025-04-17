@@ -308,6 +308,11 @@
       "providerPlugin": "awscloudformation",
       "service": "DynamoDB"
     },
+    "media": {
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "S3"
+    },
     "users": {
       "providerPlugin": "awscloudformation",
       "service": "DynamoDB"

@@ -26,6 +26,7 @@
             </formContainer>
         </div>
       </div> -->
+      <input type="file" @change="uploadImage" />
     </section>
   </DarkModeLayout>
 
@@ -37,10 +38,8 @@
 import DarkModeLayout from '@/layouts/DarkModeLayout.vue';
 import { inject } from 'vue';
 import { get, post } from 'aws-amplify/api'
-// import formContainer from '@/components/form/formContainer.vue';
-// import formField from '@/components/form/formField/formField.vue';
-// import formSubmitBtn from '@/components/form/formSubmitBtn/formSubmitBtn.vue';
-// import formLabel from '@/components/form/formLabel/formLabel.vue';
+import { uploadData, list, getUrl } from 'aws-amplify/storage';
+import { Auth } from 'aws-amplify';
 import userMenu from '@/components/menu/userMenu/userMenu.vue';
 import userPageContent from '@/components/userPageContent/userPageContent.vue';
 
@@ -49,10 +48,6 @@ export default {
   components: {
     DarkModeLayout,
     userPageContent,
-    // formContainer,
-    // formField,
-    // formSubmitBtn,
-    // formLabel,
     userMenu
   },
   setup() {
@@ -70,11 +65,13 @@ export default {
       newAdress: null,
       adressFormIsDisplay: false,
       adresses: [],
+      uploadedImageUrl: null
     };
   },
   created() {
     this.getUser();
     this.getAdresses();
+    this.getAllImages()
   },
   methods: {
     async getUser() {
@@ -85,10 +82,11 @@ export default {
         });
         const response = await restOperation.response;
         const data = await response.body.json();
+        console.log(data)
         this.email = data[0].email
         this.lastName = data[0].last_name
         this.firstName = data[0].first_name
-        this.userId = data[0].user_id
+        this.userId = data[0].id
       } catch (e) {
         console.log('GET call failed: ', e);
       }
@@ -119,7 +117,8 @@ export default {
             body: {
               adress: this.newAdress
             },
-          }});
+          }
+        });
 
         const { body } = await restOperation.response;
         const response = await body.json();
@@ -130,8 +129,52 @@ export default {
         console.log('GET call failed: ', e);
       }
     },
-    toggleAdressForm(){
+    toggleAdressForm() {
       this.adressFormIsDisplay = !this.adressFormIsDisplay
+    },
+    async uploadImage(event) {
+      const file = event.target.files[0];
+      try {
+        uploadData({
+          path: ({ identityId }) => `protected/${identityId}/images/${Date.now()}-${file.name}`,
+          // Alternatively, path: ({identityId}) => `protected/${identityId}/album/2024/1.jpg`
+          data: file,
+          options: {
+            onProgress: ({ transferredBytes, totalBytes }) => {
+              if (totalBytes) {
+                console.log(
+                  `Upload progress ${Math.round((transferredBytes / totalBytes) * 100)
+                  } %`
+                );
+              }
+            }
+          }
+        }).result;
+      } catch (error) {
+        console.log('Error : ', error);
+      }
+    },
+    async getAllImages() {
+      try {
+        const credentials = await Auth.currentCredentials();
+        const identityId = credentials.identityId;
+
+        const result = await list({
+          path: `protected/${identityId}/images/`
+        });
+
+        const imageUrls = await Promise.all(
+          result.items.map(async (file) => {
+            const urlResult = await getUrl({ path: file.path });
+            return urlResult.url;
+          })
+        );
+
+        console.log('URLs des images:', imageUrls);
+        this.uploadedImageUrls = imageUrls; // Assurez-vous que cette variable est définie dans data()
+      } catch (error) {
+        console.log('Erreur lors de la récupération des images:', error);
+      }
     }
   },
 };
