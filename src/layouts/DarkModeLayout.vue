@@ -2,10 +2,10 @@
   <div id="layout">
     <header>
       <div class="nav-left">
-        <router-link to="/">Accueil</router-link>
+        <router-link to="/user">Accueil</router-link>
       </div>
 
-      <div class="nav-right">
+      <div v-if="!hasTokenKey" class="nav-right">
         <router-link to="/login">Login</router-link>
         <router-link to="/register">Register</router-link>
       </div>
@@ -28,6 +28,7 @@ export default {
   data() {
     return {
       store: inject('store'),
+      hasTokenKey: null
     };
   },
   mounted() {
@@ -35,6 +36,16 @@ export default {
     if (savedMode === 'true') {
       this.store.appIsDark = true;
       document.body.classList.add('dark-mode');
+    }
+    const tokenKey = Object.keys(localStorage).find(key =>
+      key.startsWith('CognitoIdentityServiceProvider.') &&
+      key.endsWith('.accessToken')
+    );
+
+    if (tokenKey) {
+      this.hasTokenKey = true;
+    } else {
+      this.hasTokenKey = false;
     }
   },
   methods: {
